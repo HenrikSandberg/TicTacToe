@@ -37,18 +37,20 @@ class BoardFragment : Fragment() {
     private fun selectRouteClick(view: View){
         val imageButton = view as ImageButton
         val coordinates = imageButton.tag as String
-        val row = coordinates[0].toString().toInt()
-        val column = coordinates[1].toString().toInt()
+        val firstTurn = ticTakToeGame.isItFirstTurn()
 
-        if (ticTakToeGame.isEmpty(row, column)){
+        if (ticTakToeGame.setBrick(coordinates[0].toString().toInt(), coordinates[1].toString().toInt())) {
+
             imageButton.setImageResource(
                 resources.getIdentifier(
-                if (ticTakToeGame.isItFirstTurn()) "o" else "x",
-                "drawable",
-                activity!!.packageName)
+                    if (firstTurn) "o" else "x",
+                    "drawable",
+                    activity!!.packageName
+                )
             )
-            ticTakToeGame.setBrick(row, column)
-        }
 
+            if (ticTakToeGame.haveAWinner())
+                println("We have a winner!")
+        }
     }
 }

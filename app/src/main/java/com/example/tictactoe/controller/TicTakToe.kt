@@ -9,10 +9,12 @@ class TicTakToe{
     )
 
     fun setBrick(row: Int, column: Int): Boolean {
-        if (isEmpty(row, column)) {
-            game[row][column] = if (firstPlayersTurn) 10 else 2
-            firstPlayersTurn = !firstPlayersTurn
-            return true
+        if (!haveAWinner()){
+            if (isEmpty(row, column)) {
+                game[row][column] = if (firstPlayersTurn) 10 else 2
+                firstPlayersTurn = !firstPlayersTurn
+                return true
+            }
         }
         return false
     }
@@ -40,7 +42,7 @@ class TicTakToe{
     }
 
     private fun lookRow(): Boolean{
-        (0..game.size).forEach { row ->
+        (0 until game.size).forEach { row ->
             val value = game[row][0] + game[row][1] + game[row][2]
             if (value == 30 || value == 6) return true
         }
@@ -48,7 +50,7 @@ class TicTakToe{
     }
 
     private fun lookColumn(): Boolean {
-        (0..game.size).forEach { column ->
+        (0 until game.size).forEach { column ->
             val value = game[0][column] + game[1][column] + game[2][column]
             if (value == 30 || value == 6) return true
         }
