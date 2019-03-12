@@ -17,7 +17,7 @@ class TicTakToe{
         return false
     }
 
-    fun resetGame(){
+    fun resetGame() {
         firstPlayersTurn = true
         game = arrayOf(
             arrayOf(0,0,0),
