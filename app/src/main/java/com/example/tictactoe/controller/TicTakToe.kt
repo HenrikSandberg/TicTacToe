@@ -1,4 +1,4 @@
-package com.example.tictactoe
+package com.example.tictactoe.controller
 
 class TicTakToe{
     private var firstPlayersTurn = true
@@ -17,6 +17,8 @@ class TicTakToe{
         return false
     }
 
+    fun isItFirstTurn(): Boolean {return firstPlayersTurn}
+
     fun resetGame() {
         firstPlayersTurn = true
         game = arrayOf(
@@ -26,7 +28,7 @@ class TicTakToe{
         )
     }
 
-    private fun isEmpty(row: Int, column: Int): Boolean { return (game[row][column] == 0) }
+    fun isEmpty(row: Int, column: Int): Boolean { return (game[row][column] == 0) }
 
     fun noEmpty(): Boolean{
         (0..game.size).forEach { row ->
