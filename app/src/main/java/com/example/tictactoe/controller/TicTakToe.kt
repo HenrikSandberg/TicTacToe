@@ -6,16 +6,6 @@ class TicTakToe{
 
     fun lookAtBoard(): Array<Int> { return game }
 
-    //Return 0 for draw, -1 for player one, and 1 for player two
-    fun whoIsTheWinner(): Int {
-        if (noEmpty() && !haveAWinner()){
-            return 0
-        } else if (haveAWinner()){
-            return if (!firstPlayersTurn) -1 else 1  //when makeMove is called it changes the players turn so if player one just made a move it's that person that won.
-        }
-        return 0
-    }
-
     fun makeMove(position: Int): Boolean {
         if (!haveAWinner()) {
             if (isEmpty(position)) {
@@ -39,13 +29,6 @@ class TicTakToe{
     fun noEmpty(): Boolean {
         (0 until game.size).forEach {position  ->
             if (game[position] == 0)  return false
-        }
-        return true
-    }
-
-    fun allEmpty(): Boolean {
-        (0 until game.size).forEach { position ->
-            if (game[position] != 0)  return false
         }
         return true
     }

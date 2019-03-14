@@ -37,22 +37,30 @@ class BoardFragment : Fragment() {
             }
     }
 
+    private fun setImage(imageButton: ImageButton){
+        imageButton.setImageResource(
+            resources.getIdentifier(
+                if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
+                "drawable",
+                activity!!.packageName
+            )
+        )
+    }
+
     private fun selectRouteClick(view: View){
         val imageButton = view as ImageButton
         val position = imageButton.tag as String
 
         if (ticTakToeGame.makeMove(position.toInt())) {
-            imageButton.setImageResource(
-                resources.getIdentifier(
-                    if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
-                    "drawable",
-                    activity!!.packageName
-                )
-            )
+            setImage(imageButton)
             if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner()){
                 val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone())
-                println("Move $move")
                 ticTakToeGame.makeMove(move)
+                for (i in 0 until grid_for_game.childCount){
+                    if(grid_for_game[i].tag.toString().toInt() == move){
+                        setImage(grid_for_game[i] as ImageButton)
+                    }
+                }
             }
 
             if (ticTakToeGame.haveAWinner())
