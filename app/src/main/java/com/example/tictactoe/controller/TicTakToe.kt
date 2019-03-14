@@ -2,16 +2,24 @@ package com.example.tictactoe.controller
 
 class TicTakToe{
     private var firstPlayersTurn = true
-    private var game = arrayOf(
-        arrayOf(0,0,0),
-        arrayOf(0,0,0),
-        arrayOf(0,0,0)
-    )
+    private var game = arrayOf(0,0,0, 0,0,0, 0,0,0)
 
-    fun setBrick(row: Int, column: Int): Boolean {
-        if (!haveAWinner()){
-            if (isEmpty(row, column)) {
-                game[row][column] = if (firstPlayersTurn) 10 else 2
+    fun lookAtBoard(): Array<Int> { return game }
+
+    //Return 0 for draw, -1 for player one, and 1 for player two
+    fun whoIsTheWinner(): Int {
+        if (noEmpty() && !haveAWinner()){
+            return 0
+        } else if (haveAWinner()){
+            return if (!firstPlayersTurn) -1 else 1  //when makeMove is called it changes the players turn so if player one just made a move it's that person that won.
+        }
+        return 0
+    }
+
+    fun makeMove(position: Int): Boolean {
+        if (!haveAWinner()) {
+            if (isEmpty(position)) {
+                game[position] = if (firstPlayersTurn) -1 else 1
                 firstPlayersTurn = !firstPlayersTurn
                 return true
             }
@@ -19,49 +27,52 @@ class TicTakToe{
         return false
     }
 
-    fun isItFirstTurn(): Boolean {return firstPlayersTurn}
+    fun isItFirstTurn(): Boolean { return firstPlayersTurn }
 
     fun resetGame() {
         firstPlayersTurn = true
-        game = arrayOf(
-            arrayOf(0,0,0),
-            arrayOf(0,0,0),
-            arrayOf(0,0,0)
-        )
+        game = arrayOf(0,0,0,0,0,0, 0,0,0)
     }
 
-    fun isEmpty(row: Int, column: Int): Boolean { return (game[row][column] == 0) }
+    private fun isEmpty(position: Int): Boolean { return (game[position] == 0) }
 
-    fun noEmpty(): Boolean{
-        (0..game.size).forEach { row ->
-            (0..game[row].size).forEach { column ->
-                if (game[row][column] == 0)  return false
-            }
+    fun noEmpty(): Boolean {
+        (0 until game.size).forEach {position  ->
+            if (game[position] == 0)  return false
         }
         return true
     }
 
-    private fun lookRow(): Boolean{
-        (0 until game.size).forEach { row ->
-            val value = game[row][0] + game[row][1] + game[row][2]
-            if (value == 30 || value == 6) return true
+    fun allEmpty(): Boolean {
+        (0 until game.size).forEach { position ->
+            if (game[position] != 0)  return false
+        }
+        return true
+    }
+
+    private fun lookRow(): Boolean {
+        var i = 0
+        while (i < game.size) {
+            val value = game[i] + game[i+1] + game[i+2]
+            if (value == -3 || value == 3) return true
+            i += 3
         }
         return false
     }
 
     private fun lookColumn(): Boolean {
-        (0 until game.size).forEach { column ->
-            val value = game[0][column] + game[1][column] + game[2][column]
-            if (value == 30 || value == 6) return true
+        (0..2).forEach { column ->
+            val value = game[column] + game[column+3] + game[column+6]
+            if (value == -3 || value == 3) return true
         }
         return false
     }
 
-    private fun lookCross(): Boolean{
-        val leftToRight = game[0][0] + game[1][1] + game[2][2]
-        val rightToLeft = game[2][0] + game[1][1] + game[0][2]
-        return (leftToRight == 30 || leftToRight == 6 || rightToLeft == 30 || rightToLeft == 6)
+    private fun lookCross(): Boolean {
+        val leftToRight = game[0] + game[4] + game[8]
+        val rightToLeft = game[2] + game[4] + game[6]
+        return (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
     }
 
-    fun haveAWinner(): Boolean { return (lookCross() || lookColumn() || lookRow())}
+    fun haveAWinner(): Boolean { return (lookCross() || lookColumn() || lookRow()) }
 }
