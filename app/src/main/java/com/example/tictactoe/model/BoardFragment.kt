@@ -74,7 +74,7 @@ class BoardFragment : Fragment() {
     }
 
     private fun aiMove(){
-        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone())
+        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone(), true)
         ticTakToeGame.makeMove(move)
         for (i in 0 until grid_for_game.childCount){
             if(grid_for_game[i].tag.toString().toInt() == move){
