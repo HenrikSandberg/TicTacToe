@@ -1,5 +1,4 @@
 package com.example.tictactoe.model
-
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,7 +10,6 @@ import com.example.tictactoe.controller.GameAI
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
 
-
 class BoardFragment : Fragment() {
 
     private var ticTakToeGame = TicTakToe()
@@ -19,7 +17,7 @@ class BoardFragment : Fragment() {
     private val playAgainstAI = true
     private val isHardModeOn = true
 
-    override fun onCreateView(
+    override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {

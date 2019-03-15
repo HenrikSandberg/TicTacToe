@@ -1,6 +1,7 @@
 package com.example.tictactoe.controller
 
 class GameAI {
+
     /********************************Public Functions********************************/
     fun makeMove(board: Array<Int>, hardMode: Boolean): Int {
         if (hardMode){
@@ -124,7 +125,6 @@ class GameAI {
         ( 0 until board.size) //Makes a list of all empty spaces on the board
             .filter { board[it] == 0}
             .forEach { moves.add(it) }
-
         return moves
     }
 
@@ -143,7 +143,7 @@ class GameAI {
         return false
     }
 
-    private fun setScore(board: Array<Int>): Int { //Calculates ultimate value when no moves are left
+    private fun setScore(board: Array<Int>): Int { //Calculates value of board when no moves are left.
         var score = 0
 
         (0..2).forEach { position ->
