@@ -2,8 +2,10 @@ package com.example.tictactoe.controller
 
 class TicTakToe{
     private var firstPlayersTurn = true
-    private var game = arrayOf(0,0,0, 0,0,0, 0,0,0)
+    private var game = arrayOf(0,0,0,0,0,0,0,0,0)
 
+
+    /********************************Public Functions********************************/
     fun lookAtBoard(): Array<Int> { return game }
 
     fun makeMove(position: Int): Boolean {
@@ -21,10 +23,8 @@ class TicTakToe{
 
     fun resetGame() {
         firstPlayersTurn = true
-        game = arrayOf(0,0,0,0,0,0, 0,0,0)
+        game = arrayOf(0,0,0,0,0,0,0,0,0)
     }
-
-    private fun isEmpty(position: Int): Boolean { return (game[position] == 0) }
 
     fun noEmpty(): Boolean {
         (0 until game.size).forEach {position  ->
@@ -32,6 +32,11 @@ class TicTakToe{
         }
         return true
     }
+
+    fun haveAWinner(): Boolean { return (lookCross() || lookColumn() || lookRow()) }
+
+    /********************************Private Functions********************************/
+    private fun isEmpty(position: Int): Boolean { return (game[position] == 0) }
 
     private fun lookRow(): Boolean {
         var i = 0
@@ -56,6 +61,4 @@ class TicTakToe{
         val rightToLeft = game[2] + game[4] + game[6]
         return (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
     }
-
-    fun haveAWinner(): Boolean { return (lookCross() || lookColumn() || lookRow()) }
 }

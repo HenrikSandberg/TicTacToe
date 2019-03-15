@@ -10,7 +10,6 @@ import androidx.core.view.get
 import com.example.tictactoe.controller.GameAI
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
-import kotlinx.android.synthetic.main.fragment_board.view.*
 
 
 class BoardFragment : Fragment() {
@@ -18,6 +17,7 @@ class BoardFragment : Fragment() {
     private var ticTakToeGame = TicTakToe()
     private var ai = GameAI()
     private val playAgainstAI = true
+    private val isHardModeOn = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,17 +44,17 @@ class BoardFragment : Fragment() {
     }
 
     private fun setImage(imageButton: ImageButton, reset: Boolean) {
-        if (reset) {
-            imageButton.setImageResource(android.R.color.transparent)
-        } else {
-            imageButton.setImageResource(
+        imageButton.setImageResource(
+            if (reset) {
+                android.R.color.transparent
+            } else {
                 resources.getIdentifier(
                     if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
                     "drawable",
                     activity!!.packageName
                 )
-            )
-        }
+            }
+        )
     }
 
     private fun selectRouteClick(view: View){
@@ -64,9 +64,8 @@ class BoardFragment : Fragment() {
         if (ticTakToeGame.makeMove(position.toInt())) {
             setImage(imageButton, false)
 
-            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner()) {
+            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner())
                 aiMove()
-            }
 
             if (ticTakToeGame.haveAWinner())
                 println("We have a winner!")
@@ -74,11 +73,11 @@ class BoardFragment : Fragment() {
     }
 
     private fun aiMove(){
-        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone(), true)
+        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone(), isHardModeOn)
         ticTakToeGame.makeMove(move)
-        for (i in 0 until grid_for_game.childCount){
-            if(grid_for_game[i].tag.toString().toInt() == move){
-                setImage(grid_for_game[i] as ImageButton, false)
+        ( 0 until grid_for_game.childCount).forEach{
+            if (grid_for_game[it].tag.toString().toInt() == move){
+                setImage(grid_for_game[it] as ImageButton, false)
             }
         }
     }

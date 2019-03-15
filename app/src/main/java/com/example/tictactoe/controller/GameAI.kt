@@ -1,6 +1,7 @@
 package com.example.tictactoe.controller
 
 class GameAI {
+    /********************************Public Functions********************************/
     fun makeMove(board: Array<Int>, hardMode: Boolean): Int {
         if (hardMode){
             return minMax(board, 7,1)[1]
@@ -23,6 +24,7 @@ class GameAI {
         }
     }
 
+    /********************************Simple AI********************************/
     private fun attackOrDefend(board: Array<Int>, player: Int): Int {
         val possibleMoves = listOf(
             rowOpportunities(board, player),
@@ -87,6 +89,45 @@ class GameAI {
         return -1
     }
 
+    /********************************Advanced AI********************************/
+    private fun minMax(board: Array<Int>, depth: Int, player: Int): Array<Int> {
+        val possibleMoveList = possibleMoves(board)
+
+        var bestScore = if (player == 1) Int.MIN_VALUE else Int.MAX_VALUE
+
+        var currentScore: Int
+        var bestMove= -1
+
+        if (possibleMoveList.isEmpty() || depth == 0)  return arrayOf( setScore(board), bestMove)
+
+        possibleMoveList.forEach {position ->
+            board[position] = player
+
+            currentScore = minMax(board, depth - 1, -player)[0]
+
+            if ( if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)) {
+                bestScore = currentScore
+                bestMove = position
+            }
+
+            board[position] = 0
+        }
+
+        return arrayOf(bestScore, bestMove)
+    }
+
+    private fun possibleMoves(board: Array<Int>): MutableList<Int> {
+        val moves: MutableList<Int> = mutableListOf()
+
+        if (haveAWinner(board)) { return moves }
+
+        ( 0 until board.size) //Makes a list of all empty spaces on the board
+            .filter { board[it] == 0}
+            .forEach { moves.add(it) }
+
+        return moves
+    }
+
     private fun haveAWinner(board: Array<Int>): Boolean { //Same method as in TicTakToe game, but condensed down to one method
         val leftToRight = board[0] + board[4] + board[8]
         val rightToLeft = board[2] + board[4] + board[6]
@@ -100,18 +141,6 @@ class GameAI {
             if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3) return true
         }
         return false
-    }
-
-    private fun possibleMoves(board: Array<Int>): MutableList<Int> {
-        val moves: MutableList<Int> = mutableListOf()
-
-        if (haveAWinner(board)) { return moves }
-
-        ( 0 until board.size) //Makes a list of all empty spaces on the board
-                .filter { board[it] == 0}
-                .forEach { moves.add(it) }
-
-        return moves
     }
 
     private fun setScore(board: Array<Int>): Int { //Calculates ultimate value when no moves are left
@@ -158,31 +187,5 @@ class GameAI {
                 else -> score = -1
             }
         return score
-    }
-
-    private fun minMax(board: Array<Int>, depth: Int, player: Int): Array<Int> {
-        val possibleMoveList = possibleMoves(board)
-
-        var bestScore = if (player == 1) Int.MIN_VALUE else Int.MAX_VALUE
-
-        var currentScore: Int
-        var bestMove= -1
-
-        if (possibleMoveList.isEmpty() || depth == 0)  return arrayOf( setScore(board), bestMove)
-
-        possibleMoveList.forEach {position ->
-            board[position] = player
-
-            currentScore = minMax(board, depth - 1, -player)[0]
-
-            if ( if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)) {
-                bestScore = currentScore
-                bestMove = position
-            }
-
-            board[position] = 0
-        }
-
-        return arrayOf(bestScore, bestMove)
     }
 }
