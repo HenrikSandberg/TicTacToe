@@ -10,6 +10,7 @@ import androidx.core.view.get
 import com.example.tictactoe.controller.GameAI
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
+import kotlinx.android.synthetic.main.fragment_board.view.*
 
 
 class BoardFragment : Fragment() {
@@ -27,24 +28,33 @@ class BoardFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        resetButton.setOnClickListener{
+
+        resetButton.setOnClickListener {
             ticTakToeGame.resetGame()
+            for (i in 0 until grid_for_game.childCount){
+                setImage(grid_for_game[i] as ImageButton, true)
+            }
         }
 
-        for (i in 0 until grid_for_game.childCount)
-            grid_for_game[i].setOnClickListener {
-                selectRouteClick(it)
+        for (i in 0 until grid_for_game.childCount) {
+            grid_for_game[i].setOnClickListener { imageButton ->
+                selectRouteClick(imageButton)
             }
+        }
     }
 
-    private fun setImage(imageButton: ImageButton){
-        imageButton.setImageResource(
-            resources.getIdentifier(
-                if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
-                "drawable",
-                activity!!.packageName
+    private fun setImage(imageButton: ImageButton, reset: Boolean) {
+        if (reset) {
+            imageButton.setImageResource(android.R.color.transparent)
+        } else {
+            imageButton.setImageResource(
+                resources.getIdentifier(
+                    if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
+                    "drawable",
+                    activity!!.packageName
+                )
             )
-        )
+        }
     }
 
     private fun selectRouteClick(view: View){
@@ -52,19 +62,24 @@ class BoardFragment : Fragment() {
         val position = imageButton.tag as String
 
         if (ticTakToeGame.makeMove(position.toInt())) {
-            setImage(imageButton)
-            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner()){
-                val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone())
-                ticTakToeGame.makeMove(move)
-                for (i in 0 until grid_for_game.childCount){
-                    if(grid_for_game[i].tag.toString().toInt() == move){
-                        setImage(grid_for_game[i] as ImageButton)
-                    }
-                }
+            setImage(imageButton, false)
+
+            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner()) {
+                aiMove()
             }
 
             if (ticTakToeGame.haveAWinner())
                 println("We have a winner!")
+        }
+    }
+
+    private fun aiMove(){
+        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone())
+        ticTakToeGame.makeMove(move)
+        for (i in 0 until grid_for_game.childCount){
+            if(grid_for_game[i].tag.toString().toInt() == move){
+                setImage(grid_for_game[i] as ImageButton, false)
+            }
         }
     }
 }
