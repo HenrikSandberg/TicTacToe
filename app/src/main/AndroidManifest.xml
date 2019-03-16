@@ -12,7 +12,7 @@
             tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-                android:name=".model.GameActivity"
+                android:name=".model.MainActivity"
                 android:configChanges="orientation|screenSize"
         >
             <intent-filter>

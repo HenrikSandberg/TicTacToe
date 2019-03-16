@@ -32,9 +32,10 @@ class BoardFragment : Fragment() {
                 setImage(grid_for_game[position] as ImageButton, true)
             }
             ticTakToeGame.resetGame()
+            updateTurn("Player 1")
         }
 
-        (0 until grid_for_game.childCount).forEach {position ->
+        (0 until grid_for_game.childCount).forEach { position ->
             grid_for_game[position].setOnClickListener { imageButton ->
                 selectRouteClick(imageButton)
             }
@@ -45,7 +46,7 @@ class BoardFragment : Fragment() {
         imageButton.setImageResource(
             when (reset) {
                 true -> R.color.transparent
-                false -> resources.getIdentifier(
+                false -> resources.getIdentifier (
                     if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
                     "drawable",
                     activity!!.packageName
@@ -60,12 +61,18 @@ class BoardFragment : Fragment() {
 
         if (ticTakToeGame.makeMove(position.toInt())) {
             setImage(imageButton, false)
+            updateTurn(if (ticTakToeGame.isItFirstTurn()) "Player 1" else "Player 2")
 
-            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner())
+            if (playAgainstAI && !ticTakToeGame.noEmpty() && !ticTakToeGame.haveAWinner()){
                 aiMove()
+                updateTurn(if (ticTakToeGame.isItFirstTurn()) "Player 1" else "Player 2")
+            }
 
             if (ticTakToeGame.haveAWinner())
-                println("We have a winner!")
+                updateTurn("${if (!ticTakToeGame.isItFirstTurn()) "Player 1" else "Player 2"} has won!")
+
+            if (ticTakToeGame.noEmpty())
+                updateTurn("It's a draw")
         }
     }
 
@@ -76,5 +83,10 @@ class BoardFragment : Fragment() {
             if (grid_for_game[position].tag.toString().toInt() == move)
                 setImage(grid_for_game[position] as ImageButton, false)
         }
+    }
+
+    private fun updateTurn(name: String){
+        val main = activity as MainActivity
+        main.setText(name)
     }
 }

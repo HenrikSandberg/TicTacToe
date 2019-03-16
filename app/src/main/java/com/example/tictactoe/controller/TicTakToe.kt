@@ -4,7 +4,6 @@ class TicTakToe{
     private var firstPlayersTurn = true
     private var game = arrayOf(0,0,0,0,0,0,0,0,0)
 
-
     /********************************Public Functions********************************/
     fun lookAtBoard(): Array<Int> { return game }
 
