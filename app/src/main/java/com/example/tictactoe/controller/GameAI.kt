@@ -1,22 +1,22 @@
 package com.example.tictactoe.controller
 
-class GameAI(_gameMode: TicTakToe.GameMode) {
+class GameAI(_gameMode: GameMode) {
     private val gameMode = _gameMode
 
     /******************************** PUBLIC ********************************/
-    fun aiName(): String{
+    fun getAIName(): String {
         return when (gameMode) {
-            TicTakToe.GameMode.IMPOSSIBLE -> "HAL 9000"
-            TicTakToe.GameMode.HARD -> " T-800"
+            GameMode.IMPOSSIBLE -> "HAL 9000"
+            GameMode.HARD -> " T-800"
             else -> "Marvin"
         }
     }
 
     fun makeMove(board: Array<Int>): Int {
-        if (gameMode == TicTakToe.GameMode.IMPOSSIBLE){
-            return minMax(board, 7,1)[1]
+        if (gameMode == GameMode.IMPOSSIBLE){
+            return minMax(board, 7,1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
 
-        } else if (gameMode == TicTakToe.GameMode.HARD) {
+        } else if (gameMode == GameMode.HARD) {
             (0..1).forEach {player -> //First looking for winning options, then looking to defend. This is represented with 1 and -1
                 val opportunity =  attackOrDefend(board, if (player == 0) 1 else -1)
                 if (opportunity != -1) return opportunity
@@ -52,7 +52,6 @@ class GameAI(_gameMode: TicTakToe.GameMode) {
 
     private fun rowOpportunities(board: Array<Int>, player: Int): Int {
         var row = 0
-
         do {
             if ((board[row] + board[row+1] + board[row+2]) == 2 * player){
                 (0..2).forEach { position ->
@@ -62,18 +61,15 @@ class GameAI(_gameMode: TicTakToe.GameMode) {
             }
             row += 3
         } while (row < board.size)
-
         return -1
     }
 
     private fun columnOpportunities(board: Array<Int>, player: Int): Int {
         (0..2).forEach { column ->
-
             if ( (board[column] + board[column+3] + board[column+6]) == (2 * player)) {
-
                 var item = 0
                 do {
-                    if(board[column+item] == 0) return column+item
+                    if (board[column+item] == 0) return column+item
                     item += 3
                 } while (item < 9)
             }
@@ -133,7 +129,7 @@ class GameAI(_gameMode: TicTakToe.GameMode) {
     private fun possibleMoves(board: Array<Int>): MutableList<Int> {
         val moves: MutableList<Int> = mutableListOf()
 
-        if (haveAWinner(board)) { return moves }
+        if (doWeHaveAWinner(board)) { return moves }
 
         ( 0 until board.size) //Makes a list of all empty spaces on the board
             .filter { board[it] == 0}
@@ -141,7 +137,7 @@ class GameAI(_gameMode: TicTakToe.GameMode) {
         return moves
     }
 
-    private fun haveAWinner(board: Array<Int>): Boolean {
+    private fun doWeHaveAWinner(board: Array<Int>): Boolean {
         val leftToRight = board[0] + board[4] + board[8]
         val rightToLeft = board[2] + board[4] + board[6]
 

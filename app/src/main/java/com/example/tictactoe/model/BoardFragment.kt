@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.core.view.get
+import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
 
 class BoardFragment : Fragment() {
-    private var ticTakToeGame = TicTakToe(Player("Henrik"), TicTakToe.GameMode.IMPOSSIBLE)
+    private var ticTakToeGame = TicTakToe(Player("Henrik"), GameMode.IMPOSSIBLE)
 
     override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +47,7 @@ class BoardFragment : Fragment() {
             when (reset) {
                 true -> R.color.transparent
                 false -> resources.getIdentifier (
-                    if (ticTakToeGame.oPlayed()) "o" else "x",
+                    if (ticTakToeGame.oJustPlayed()) "o" else "x",
                     "drawable",
                     activity!!.packageName
                 )
@@ -79,7 +80,7 @@ class BoardFragment : Fragment() {
         val display = next_turn_text
 
         display.text =  when {
-            ticTakToeGame.haveAWinner() -> "${ticTakToeGame.priviesPlayer()} won!"
+            ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.priviesPlayer()} won!"
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
         }
