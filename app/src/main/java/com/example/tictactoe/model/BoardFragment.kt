@@ -1,4 +1,5 @@
 package com.example.tictactoe.model
+import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,9 +14,8 @@ import kotlinx.android.synthetic.main.fragment_board.*
 class BoardFragment : Fragment() {
 
     private var ticTakToeGame = TicTakToe()
-    private var ai = GameAI()
+    private var ai = GameAI(GameAI.GameMode.IMPOSSIBLE)
     private val playAgainstAI = true
-    private val isHardModeOn = true
 
     override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,14 +28,14 @@ class BoardFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         resetButton.setOnClickListener {
-            ticTakToeGame.resetGame()
-            for (i in 0 until grid_for_game.childCount){
-                setImage(grid_for_game[i] as ImageButton, true)
+            ( 0 until grid_for_game.childCount).forEach{ position->
+                setImage(grid_for_game[position] as ImageButton, true)
             }
+            ticTakToeGame.resetGame()
         }
 
-        for (i in 0 until grid_for_game.childCount) {
-            grid_for_game[i].setOnClickListener { imageButton ->
+        (0 until grid_for_game.childCount).forEach {position ->
+            grid_for_game[position].setOnClickListener { imageButton ->
                 selectRouteClick(imageButton)
             }
         }
@@ -43,10 +43,9 @@ class BoardFragment : Fragment() {
 
     private fun setImage(imageButton: ImageButton, reset: Boolean) {
         imageButton.setImageResource(
-            if (reset) {
-                android.R.color.transparent
-            } else {
-                resources.getIdentifier(
+            when (reset) {
+                true -> R.color.transparent
+                false -> resources.getIdentifier(
                     if (!ticTakToeGame.isItFirstTurn()) "o" else "x", //Make move changes player turn so if current player is player two then it was player one that just did a move
                     "drawable",
                     activity!!.packageName
@@ -71,12 +70,11 @@ class BoardFragment : Fragment() {
     }
 
     private fun aiMove(){
-        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone(), isHardModeOn)
+        val move = ai.makeMove(ticTakToeGame.lookAtBoard().clone())
         ticTakToeGame.makeMove(move)
-        ( 0 until grid_for_game.childCount).forEach{
-            if (grid_for_game[it].tag.toString().toInt() == move){
-                setImage(grid_for_game[it] as ImageButton, false)
-            }
+        ( 0 until grid_for_game.childCount).forEach{ position ->
+            if (grid_for_game[position].tag.toString().toInt() == move)
+                setImage(grid_for_game[position] as ImageButton, false)
         }
     }
 }

@@ -1,41 +1,50 @@
 package com.example.tictactoe.controller
 
-class GameAI {
+class GameAI(_gameMode: GameMode) {
+    private val gameMode = _gameMode
 
-    /********************************Public Functions********************************/
-    fun makeMove(board: Array<Int>, hardMode: Boolean): Int {
-        if (hardMode){
+    /******************************** PUBLIC ********************************/
+    enum class GameMode { EASY, HARD, IMPOSSIBLE }
+
+    fun makeMove(board: Array<Int>): Int {
+        if (gameMode == GameMode.IMPOSSIBLE){
             return minMax(board, 7,1)[1]
-        } else {
 
-            //First looking for winning options, then looking to defend. This is represented with 1 and -1
-            (0..1).forEach {
-                val opportunity =  attackOrDefend(board, if (it == 0) 1 else -1)
+        } else if (gameMode == GameMode.HARD) {
+            (0..1).forEach {player -> //First looking for winning options, then looking to defend. This is represented with 1 and -1
+                val opportunity =  attackOrDefend(board, if (player == 0) 1 else -1)
                 if (opportunity != -1) return opportunity
             }
 
-            listOf(0,2,6,8,4).shuffled().forEach { item ->
-                if (board[item] == 0) return item
-            }
-
-            do {
-                val position = (0..8).shuffled().first()
-                if (board[position] == 0) return position
-            } while (true)
+            listOf(0, 2, 4, 6, 8)
+                .shuffled()
+                .forEach{ item -> if (board[item] == 0) return item }
         }
+        return chaosRandom(board)
     }
 
-    /********************************Simple AI********************************/
+    /************************************************************************/
+    /******************************** PRIVATE ********************************/
+    /************************************************************************/
+
+
+    /******************************** EASY ********************************/
+    private fun chaosRandom(board: Array<Int>):Int{
+        return (0..8)
+            .shuffled()
+            .first { item -> board[item] == 0}
+    }
+
+    /******************************** HARD ********************************/
     private fun attackOrDefend(board: Array<Int>, player: Int): Int {
-        val possibleMoves = listOf(
+        // Make sure the code don't favor column, row or cross over one and other
+        listOf(
             rowOpportunities(board, player),
             columnOpportunities(board, player),
             crossOpportunities(board, player)
-        ).shuffled() // Make sure the code don't favor column, row or cross over one and other
+        ).shuffled()
+        .forEach { item -> if (item != -1) return item }
 
-        (0 until possibleMoves.size).forEach { item ->
-            if (possibleMoves[item] != -1) return possibleMoves[item]
-        }
         return -1
     }
 
@@ -45,7 +54,8 @@ class GameAI {
         do {
             if ((board[row] + board[row+1] + board[row+2]) == 2 * player){
                 (0..2).forEach { position ->
-                    if (board[row+position] == 0) return row+position
+                    if (board[row+position] == 0)
+                        return row+position
                 }
             }
             row += 3
@@ -90,7 +100,7 @@ class GameAI {
         return -1
     }
 
-    /********************************Advanced AI********************************/
+    /******************************** ADVANCED ********************************/
     private fun minMax(board: Array<Int>, depth: Int, player: Int): Array<Int> {
         val possibleMoveList = possibleMoves(board)
 
@@ -99,7 +109,8 @@ class GameAI {
         var currentScore: Int
         var bestMove= -1
 
-        if (possibleMoveList.isEmpty() || depth == 0)  return arrayOf( setScore(board), bestMove)
+        if (possibleMoveList.isEmpty() || depth == 0)
+            return arrayOf( setScore(board), bestMove)
 
         possibleMoveList.forEach {position ->
             board[position] = player
@@ -132,14 +143,17 @@ class GameAI {
         val leftToRight = board[0] + board[4] + board[8]
         val rightToLeft = board[2] + board[4] + board[6]
 
-        if (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3) return true
+        if (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
+            return true
 
         (0..2).forEach { i ->
             val valueRow = board[i*3] + board[(i*3)+1] + board[(i*3)+2]
             val valueColumn = board[i] + board[i+3] + board[i+6]
 
-            if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3) return true
+            if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3)
+                return true
         }
+
         return false
     }
 
