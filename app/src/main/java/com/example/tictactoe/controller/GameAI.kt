@@ -1,5 +1,11 @@
 package com.example.tictactoe.controller
 
+enum class GameMode {
+    EASY,
+    HARD,
+    IMPOSSIBLE
+}
+
 class GameAI(_gameMode: GameMode) {
     private val gameMode = _gameMode
 
@@ -168,7 +174,7 @@ class GameAI(_gameMode: GameMode) {
         return score
     }
 
-    //Returns zero when there is no opportunities otherwise returns a negative score if loosing or a positive score if winning
+    //Returns zero when there is no opportunities otherwise it returns a positive value, the greater the better
     private fun lineScore(firstItem: Int, secondItem: Int, thirdItem: Int): Int {
         var score = firstItem
 
@@ -184,18 +190,17 @@ class GameAI(_gameMode: GameMode) {
                 1 -> return 0
                 else -> -1
             }
-
         if (thirdItem == 1)
-            when {
-                score > 0 -> score *= 10
+            score = when {
+                score > 0 -> score * 10
                 score < 0 -> return 0
-                else -> score = 1
+                else -> 1
             }
         else if (thirdItem == -1)
-            when {
-                score < 0 -> score *= 10
+            score = when {
+                score < 0 ->  10
                 score > 1 -> return 0
-                else -> score = -1
+                else -> -1
             }
         return score
     }

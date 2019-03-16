@@ -1,8 +1,5 @@
 package com.example.tictactoe.controller
 
-//Simple enum that decides the game mode.
-enum class GameMode { EASY, HARD, IMPOSSIBLE }
-
 class TicTakToe {
     private var p1:Player? = null
     private var p2:Player? = null
