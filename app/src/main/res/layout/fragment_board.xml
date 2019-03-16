@@ -7,6 +7,17 @@
              tools:context=".model.MainActivity"
               android:orientation="vertical"
 >
+    <TextView
+            android:id="@+id/next_turn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="40sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:layout_gravity="center"
+            android:text="@string/hello_blank_fragment"
+    />
+
 
     <GridLayout
                 android:id="@+id/grid_for_game"

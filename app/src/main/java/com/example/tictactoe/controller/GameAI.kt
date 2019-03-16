@@ -1,16 +1,22 @@
 package com.example.tictactoe.controller
 
-class GameAI(_gameMode: GameMode) {
+class GameAI(_gameMode: TicTakToe.GameMode) {
     private val gameMode = _gameMode
 
     /******************************** PUBLIC ********************************/
-    enum class GameMode { EASY, HARD, IMPOSSIBLE }
+    fun aiName(): String{
+        return when (gameMode) {
+            TicTakToe.GameMode.IMPOSSIBLE -> "HAL 9000"
+            TicTakToe.GameMode.HARD -> " T-800"
+            else -> "Marvin"
+        }
+    }
 
     fun makeMove(board: Array<Int>): Int {
-        if (gameMode == GameMode.IMPOSSIBLE){
+        if (gameMode == TicTakToe.GameMode.IMPOSSIBLE){
             return minMax(board, 7,1)[1]
 
-        } else if (gameMode == GameMode.HARD) {
+        } else if (gameMode == TicTakToe.GameMode.HARD) {
             (0..1).forEach {player -> //First looking for winning options, then looking to defend. This is represented with 1 and -1
                 val opportunity =  attackOrDefend(board, if (player == 0) 1 else -1)
                 if (opportunity != -1) return opportunity
@@ -20,16 +26,12 @@ class GameAI(_gameMode: GameMode) {
                 .shuffled()
                 .forEach{ item -> if (board[item] == 0) return item }
         }
-        return chaosRandom(board)
+        return pickEmptySpot(board)
     }
 
-    /************************************************************************/
     /******************************** PRIVATE ********************************/
-    /************************************************************************/
-
-
     /******************************** EASY ********************************/
-    private fun chaosRandom(board: Array<Int>):Int{
+    private fun pickEmptySpot(board: Array<Int>): Int{
         return (0..8)
             .shuffled()
             .first { item -> board[item] == 0}
@@ -112,7 +114,7 @@ class GameAI(_gameMode: GameMode) {
         if (possibleMoveList.isEmpty() || depth == 0)
             return arrayOf( setScore(board), bestMove)
 
-        possibleMoveList.forEach {position ->
+        possibleMoveList.forEach { position ->
             board[position] = player
 
             currentScore = minMax(board, depth - 1, -player)[0]
@@ -139,7 +141,7 @@ class GameAI(_gameMode: GameMode) {
         return moves
     }
 
-    private fun haveAWinner(board: Array<Int>): Boolean { //Same method as in TicTakToe game, but condensed down to one method
+    private fun haveAWinner(board: Array<Int>): Boolean {
         val leftToRight = board[0] + board[4] + board[8]
         val rightToLeft = board[2] + board[4] + board[6]
 
@@ -153,7 +155,6 @@ class GameAI(_gameMode: GameMode) {
             if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3)
                 return true
         }
-
         return false
     }
 

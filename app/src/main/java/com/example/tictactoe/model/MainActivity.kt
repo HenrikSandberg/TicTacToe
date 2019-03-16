@@ -15,13 +15,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpGame(){
         val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.info_content_frame, DisplayTurnFragment())
         ft.replace(R.id.game_content_frame, BoardFragment())
         ft.commit()
-    }
-
-    fun setText(name: String){
-        val display = fragmentManager.findFragmentById(R.id.info_content_frame) as DisplayTurnFragment
-        display.displayName(name)
     }
 }

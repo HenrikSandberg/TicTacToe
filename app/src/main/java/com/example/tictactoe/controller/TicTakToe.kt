@@ -1,63 +1,96 @@
 package com.example.tictactoe.controller
 
 class TicTakToe{
+    enum class GameMode { PVP, EASY, HARD, IMPOSSIBLE }
+    private var p1:Player? = null
+    private var p2:Player? = null
+
+    private var gameMode:GameMode? = null
+    private var ai:GameAI? = null
+
     private var firstPlayersTurn = true
-    private var game = arrayOf(0,0,0,0,0,0,0,0,0)
+    private var board = arrayOf(0,0,0,0,0,0,0,0,0)
+
+    constructor(_player1: Player, _player2: Player) {
+        p1 = _player1
+        p2 = _player2
+        gameMode = GameMode.PVP
+    }
+
+    constructor(_player: Player, _gameMode: GameMode) {
+        p1 = _player
+        gameMode = _gameMode
+        ai = if (gameMode != GameMode.PVP) GameAI(gameMode!!) else null
+    }
+
 
     /********************************Public Functions********************************/
-    fun lookAtBoard(): Array<Int> { return game }
-
-    fun makeMove(position: Int): Boolean {
-        if (!haveAWinner()) {
-            if (isEmpty(position)) {
-                game[position] = if (firstPlayersTurn) -1 else 1
-                firstPlayersTurn = !firstPlayersTurn
-                return true
-            }
+    fun nextPlayer(): String{
+        if (firstPlayersTurn) return p1.toString()
+        return when(gameMode) {
+            GameMode.PVP -> p2!!.toString()
+            else -> ai?.aiName() ?: "Computer"
         }
-        return false
     }
 
-    fun isItFirstTurn(): Boolean { return firstPlayersTurn }
+    fun priviesPlayer(): String{
+        return if (gameMode == GameMode.PVP) {
+            if (!firstPlayersTurn) p1.toString() else p2!!.toString()
+        } else {
+            if (!firstPlayersTurn) p1.toString() else ai?.aiName() ?: "Computer"
+        }
+    }
 
+    fun makePlayerMoveIfLegal(position: Int): Boolean {
+        return if (!haveAWinner() && isEmpty(position)) {
+            updateGame(position)
+            true
+        } else false
+    }
+
+    fun makeAIMove(): Int {
+        return if (ai != null && !haveAWinner() && !noEmpty()) {
+            val move = ai!!.makeMove(board)
+            updateGame(move)
+            move
+        } else -1
+    }
+
+    fun oPlayed(): Boolean { return !firstPlayersTurn }
+
+    //TODO: Add logic so that player stats are updated here
+    //TODO: Make rematch with switch of players symbol
     fun resetGame() {
         firstPlayersTurn = true
-        game = arrayOf(0,0,0,0,0,0,0,0,0)
+        board = arrayOf(0,0,0,0,0,0,0,0,0)
     }
 
-    fun noEmpty(): Boolean {
-        (0 until game.size).forEach {position  ->
-            if (game[position] == 0)  return false
+    fun noEmpty(): Boolean { return board.none { it == 0 } }
+
+    fun haveAWinner(): Boolean {
+        val leftToRight = board[0] + board[4] + board[8]
+        val rightToLeft = board[2] + board[4] + board[6]
+
+        if (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
+            return true
+
+        (0..2).forEach { i ->
+            val valueRow = board[i*3] + board[(i*3)+1] + board[(i*3)+2]
+            val valueColumn = board[i] + board[i+3] + board[i+6]
+
+            if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3)
+                return true
         }
-        return true
+        return false
     }
-
-    fun haveAWinner(): Boolean { return (lookCross() || lookColumn() || lookRow()) }
 
     /********************************Private Functions********************************/
-    private fun isEmpty(position: Int): Boolean { return (game[position] == 0) }
 
-    private fun lookRow(): Boolean {
-        var i = 0
-        while (i < game.size) {
-            val value = game[i] + game[i+1] + game[i+2]
-            if (value == -3 || value == 3) return true
-            i += 3
-        }
-        return false
+    private fun updateGame(position: Int){
+        board[position] = if (firstPlayersTurn) -1 else 1
+        firstPlayersTurn = !firstPlayersTurn
     }
 
-    private fun lookColumn(): Boolean {
-        (0..2).forEach { column ->
-            val value = game[column] + game[column+3] + game[column+6]
-            if (value == -3 || value == 3) return true
-        }
-        return false
-    }
+    private fun isEmpty(position: Int): Boolean { return (board[position] == 0) }
 
-    private fun lookCross(): Boolean {
-        val leftToRight = game[0] + game[4] + game[8]
-        val rightToLeft = game[2] + game[4] + game[6]
-        return (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
-    }
 }
