@@ -19,28 +19,30 @@ class GameAI(_gameMode: GameMode) {
     }
 
     fun makeMove(board: Array<Int>): Int {
-        if (gameMode == GameMode.IMPOSSIBLE){
-            return minMax(board, 7,1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
-
+        if (gameMode == GameMode.IMPOSSIBLE) {
+            if (!validityOfBoard(board)) {
+                return minMax(board, 7, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
+            }
         } else if (gameMode == GameMode.HARD) {
-            (0..1).forEach {player -> //First looking for winning options, then looking to defend. This is represented with 1 and -1
-                val opportunity =  attackOrDefend(board, if (player == 0) 1 else -1)
+            (0..1).forEach { player ->
+                //First looking for winning options, then looking to defend. This is represented with 1 and -1
+                val opportunity = attackOrDefend(board, if (player == 0) 1 else -1)
                 if (opportunity != -1) return opportunity
             }
 
             listOf(0, 2, 4, 6, 8)
                 .shuffled()
-                .forEach{ item -> if (board[item] == 0) return item }
+                .forEach { item -> if (board[item] == 0) return item }
         }
         return pickEmptySpot(board)
     }
 
     /******************************** PRIVATE ********************************/
     /******************************** EASY ********************************/
-    private fun pickEmptySpot(board: Array<Int>): Int{
+    private fun pickEmptySpot(board: Array<Int>): Int {
         return (0..8)
             .shuffled()
-            .first { item -> board[item] == 0}
+            .first { item -> board[item] == 0 }
     }
 
     /******************************** HARD ********************************/
@@ -51,7 +53,7 @@ class GameAI(_gameMode: GameMode) {
             columnOpportunities(board, player),
             crossOpportunities(board, player)
         ).shuffled()
-        .forEach { item -> if (item != -1) return item }
+            .forEach { item -> if (item != -1) return item }
 
         return -1
     }
@@ -59,10 +61,10 @@ class GameAI(_gameMode: GameMode) {
     private fun rowOpportunities(board: Array<Int>, player: Int): Int {
         var row = 0
         do {
-            if ((board[row] + board[row+1] + board[row+2]) == 2 * player){
+            if ((board[row] + board[row + 1] + board[row + 2]) == 2 * player) {
                 (0..2).forEach { position ->
-                    if (board[row+position] == 0)
-                        return row+position
+                    if (board[row + position] == 0)
+                        return row + position
                 }
             }
             row += 3
@@ -72,10 +74,10 @@ class GameAI(_gameMode: GameMode) {
 
     private fun columnOpportunities(board: Array<Int>, player: Int): Int {
         (0..2).forEach { column ->
-            if ( (board[column] + board[column+3] + board[column+6]) == (2 * player)) {
+            if ((board[column] + board[column + 3] + board[column + 6]) == (2 * player)) {
                 var item = 0
                 do {
-                    if (board[column+item] == 0) return column+item
+                    if (board[column + item] == 0) return column + item
                     item += 3
                 } while (item < 9)
             }
@@ -111,17 +113,17 @@ class GameAI(_gameMode: GameMode) {
         var bestScore = if (player == 1) Int.MIN_VALUE else Int.MAX_VALUE
 
         var currentScore: Int
-        var bestMove= -1
+        var bestMove = -1
 
         if (possibleMoveList.isEmpty() || depth == 0)
-            return arrayOf( setScore(board), bestMove)
+            return arrayOf(setScore(board), bestMove)
 
         possibleMoveList.forEach { position ->
             board[position] = player
 
             currentScore = minMax(board, depth - 1, -player)[0]
 
-            if ( if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)) {
+            if (if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)) {
                 bestScore = currentScore
                 bestMove = position
             }
@@ -135,10 +137,10 @@ class GameAI(_gameMode: GameMode) {
     private fun possibleMoves(board: Array<Int>): MutableList<Int> {
         val moves: MutableList<Int> = mutableListOf()
 
-        if (doWeHaveAWinner(board)) { return moves }
+        if (doWeHaveAWinner(board)) return moves
 
-        ( 0 until board.size) //Makes a list of all empty spaces on the board
-            .filter { board[it] == 0}
+        (0 until board.size) //Makes a list of all empty spaces on the board
+            .filter { board[it] == 0 }
             .forEach { moves.add(it) }
         return moves
     }
@@ -151,8 +153,8 @@ class GameAI(_gameMode: GameMode) {
             return true
 
         (0..2).forEach { i ->
-            val valueRow = board[i*3] + board[(i*3)+1] + board[(i*3)+2]
-            val valueColumn = board[i] + board[i+3] + board[i+6]
+            val valueRow = board[i * 3] + board[(i * 3) + 1] + board[(i * 3) + 2]
+            val valueColumn = board[i] + board[i + 3] + board[i + 6]
 
             if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3)
                 return true
@@ -164,8 +166,17 @@ class GameAI(_gameMode: GameMode) {
         var score = 0
 
         (0..2).forEach { position ->
-            score += lineScore(board[position * 3], board[(position * 3) + 1], board[(position * 3) + 2]) // calculate all row values
-            score += lineScore(board[position], board[position + 3], board[position + 6]) //calculate all column values
+            score += lineScore(
+                board[position * 3],
+                board[(position * 3) + 1],
+                board[(position * 3) + 2]
+            ) // calculate all row values
+            
+            score += lineScore(
+                board[position],
+                board[position + 3],
+                board[position + 6]
+            ) //calculate all column values
         }
 
         //Calculate the diagonal values
@@ -191,17 +202,370 @@ class GameAI(_gameMode: GameMode) {
                 else -> -1
             }
         if (thirdItem == 1)
-            score = when {
-                score > 0 -> score * 10
+            when {
+                score > 0 -> score *= 10
                 score < 0 -> return 0
-                else -> 1
+                else -> score = 1
             }
         else if (thirdItem == -1)
-            score = when {
-                score < 0 ->  10
+            when {
+                score < 0 -> score *= 10
                 score > 1 -> return 0
-                else -> -1
+                else -> score = -1
             }
         return score
     }
+}
+/******************************** END ********************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************** Eh.... Way are you here ********************************/
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+
+
+/******************************** Can't you read. You should stop scrolling ********************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************** Way do you insist on scrolling ********************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************** OK, you can stop scrolling now ********************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************** .... ********************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+/******************************** Fin... ********************************/
+/******************************** This is how you can stop my unstoppable AI ********************************/
+/******************************** Turns out that it's not that fun to loose against a computer ********************************/
+/******************************** Again and again... and again ********************************/
+/******************************** So I made a easter egg ********************************/
+/******************************** If both you and the universe pick 42 ********************************/
+/******************************** (and by universe I mean Kotlin .shuffled()) ********************************/
+/******************************** The AI turns dum for one move!  ********************************/
+/******************************** It's not much, but that makes it possible to win  ********************************/
+private fun validityOfBoard(board: Array<Int>): Boolean {
+    when (board[4] == -1 && board[2] == -1 ) {
+        true -> {
+            listOf(0,1,3,5,6,7,8).forEach{ if (board[it] == -1) return false }
+            if ((1..100).shuffled().first() == 42) return true
+        }
+        else -> return false
+    }
+    return false
 }

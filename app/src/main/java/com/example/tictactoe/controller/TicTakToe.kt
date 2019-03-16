@@ -34,7 +34,7 @@ class TicTakToe {
 
     fun makeAIMove(): Int {
         return if (ai != null && !doWeHaveAWinner() && !noEmpty()) {
-            val move = ai!!.makeMove(board)
+            val move = ai!!.makeMove(board.clone())
             updateGame(move)
             move
         } else -1
