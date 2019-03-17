@@ -12,9 +12,9 @@ class GameAI(_gameMode: GameMode) {
     /******************************** PUBLIC ********************************/
     fun getAIName(): String {
         return when (gameMode) {
-            GameMode.IMPOSSIBLE -> "HAL 9000"
-            GameMode.HARD -> " T-800"
-            else -> "Marvin"
+            GameMode.IMPOSSIBLE -> "Deep Thought"
+            GameMode.HARD -> "Marvin"
+            else -> "Eddie the Computer"
         }
     }
 
@@ -171,7 +171,7 @@ class GameAI(_gameMode: GameMode) {
                 board[(position * 3) + 1],
                 board[(position * 3) + 2]
             ) // calculate all row values
-            
+
             score += lineScore(
                 board[position],
                 board[position + 3],
@@ -299,7 +299,7 @@ class GameAI(_gameMode: GameMode) {
 
 
 
-/******************************** Can't you read. You should stop scrolling ********************************/
+/******************************** You should have stopped scrolling by now ********************************/
 
 
 
@@ -556,16 +556,15 @@ class GameAI(_gameMode: GameMode) {
 /******************************** Again and again... and again ********************************/
 /******************************** So I made a easter egg ********************************/
 /******************************** If both you and the universe pick 42 ********************************/
-/******************************** (and by universe I mean Kotlin .shuffled()) ********************************/
-/******************************** The AI turns dum for one move!  ********************************/
-/******************************** It's not much, but that makes it possible to win  ********************************/
+/******************************** and by universe I mean Kotlin .shuffled() ********************************/
+/******************************** The AI turns dum for one move! ********************************/
+/******************************** It's still improbable that you will win, but it is possible ********************************/
 private fun validityOfBoard(board: Array<Int>): Boolean {
-    when (board[4] == -1 && board[2] == -1 ) {
-        true -> {
-            listOf(0,1,3,5,6,7,8).forEach{ if (board[it] == -1) return false }
-            if ((1..100).shuffled().first() == 42) return true
+    if (board[4] == -1 && board[2] == -1 ) {
+        listOf(0,1,3,5,6,7,8).forEach{
+            if (board[it] == -1) return false
         }
-        else -> return false
+        if ((1..1000).shuffled().first() == 42) return true
     }
     return false
 }
