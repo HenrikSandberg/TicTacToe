@@ -7,4 +7,19 @@
     <string name="easy">EASY</string>
     <string name="medium">MEDIUM</string>
     <string name="impossible">IMPOSSIBLE</string>
+    <string name="deep_thought">Deep Thought</string>
+    <string name="marvin">Marvin</string>
+    <string name="eddie_the_computer">Eddie the Computer</string>
+    <string name="points">Points</string>
+    <string name="button_top_left">button top left</string>
+    <string name="button_top_midle">button top midle</string>
+    <string name="button_top_right">button top right</string>
+    <string name="button_middle_left">button middle left</string>
+    <string name="button_middle_middle">button middle middle</string>
+    <string name="button_middle_rigth">button middle rigth</string>
+    <string name="button_bottom_left">button bottom left</string>
+    <string name="button_bottom_middle">button bottom middle</string>
+    <string name="button_bottom_rigth">button bottom rigth</string>
+    <string name="hard">HARD</string>
+    <string name="play_against">Play Against</string>
 </resources>

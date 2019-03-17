@@ -75,11 +75,11 @@ class GameAI(_gameMode: GameMode) {
     private fun columnOpportunities(board: Array<Int>, player: Int): Int {
         (0..2).forEach { column ->
             if ((board[column] + board[column + 3] + board[column + 6]) == (2 * player)) {
-                var item = 0
+                var position = 0
                 do {
-                    if (board[column + item] == 0) return column + item
-                    item += 3
-                } while (item < 9)
+                    if (board[column + position] == 0) return column + position
+                    position += 3
+                } while (position < 9)
             }
         }
         return -1

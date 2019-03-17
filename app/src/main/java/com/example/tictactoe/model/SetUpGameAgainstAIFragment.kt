@@ -1,13 +1,32 @@
 package com.example.tictactoe.model
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.core.view.children
 import com.example.tictactoe.R
+import com.example.tictactoe.controller.GameMode
+import kotlinx.android.synthetic.main.fragment_set_up_game_against_ai.*
 
 class SetUpGameAgainstAIFragment : Fragment() {
+
+    private var gameMode = GameMode.IMPOSSIBLE
+
+    private val computerTexts = arrayOf(
+        "This is the on board computer to the Heart of Gold." +
+                " The universes fastest spaceship. However, Eddie the Computer is not that impressive.." +
+                " He only wants to please you and trust me that gets quite annoying fast...",
+
+        "Originally built by the Sirius Cybernetics Corporation's GPP (Genuine People Personalities) technology," +
+                " Marvin is afflicted with severe depression and boredom, in part because he has a brain the size of a " +
+                "planet which he is seldom, if ever, given the chance to use. Beating him is tough, but it is possible."
+
+        ,"Deep Thought is a supernatural-computer programmed to calculate the answer the Ultimate Question of Life, the Universe, and Everything." +
+            " Winning against Deep Thought is impossible. However, someone do say that there is one way.")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,5 +37,54 @@ class SetUpGameAgainstAIFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_set_up_game_against_ai, container, false)
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        game_mode_selector.children.forEach {
+            val child = it as RadioButton
+            child.setOnClickListener{
+                if (child.isChecked){
+                    gameMode = when(child.id) {
+                        R.id.easy -> GameMode.EASY
+                        R.id.medium -> GameMode.HARD
+                        else -> GameMode.IMPOSSIBLE
+                    }
+                    println("GAME MODE IS NOW $gameMode")
+                    updateUI()
+                }
+            }
+        }
+
+        set_up_game_against_ai_button.setOnClickListener {
+            game_mode_selector.children.forEach {
+                println("LETS PLAY!")
+                val activity = activity as MainActivity
+                activity.createGame(gameMode)
+            }
+        }
+        updateUI()
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun updateUI(){
+        when(gameMode){
+            GameMode.EASY -> {
+                ai_description.text = computerTexts[0]
+                title_text.text = "Eddie the Computer"
+                points.text = "winning: +1pts draw: -1 loosing: -10"
+            }
+            GameMode.HARD -> {
+                ai_description.text = computerTexts[1]
+                title_text.text = "Marvin"
+                points.text = "winning: +5 draw: 0 loosing: -5"
+            }
+            else -> {
+                ai_description.text = computerTexts[2]
+                title_text.text = "Deep Thought"
+                points.text = "winning: +1000 draw: 0 loosing: -1"
+            }
+        }
     }
 }
