@@ -13,8 +13,9 @@ import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
 
-class BoardFragment : Fragment() {
-    private var ticTakToeGame = TicTakToe(Player("Henrik"), GameMode.IMPOSSIBLE)
+class BoardFragment @SuppressLint("ValidFragment") constructor(game: TicTakToe) : Fragment() {
+    private var ticTakToeGame = game
+    //TicTakToe(Player("Henrik"), GameMode.IMPOSSIBLE)
 
     override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,

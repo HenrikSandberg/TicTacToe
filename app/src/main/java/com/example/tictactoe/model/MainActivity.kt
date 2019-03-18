@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.GameMode
+import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
 
 class MainActivity : AppCompatActivity() {
@@ -20,14 +21,13 @@ class MainActivity : AppCompatActivity() {
         //TODO: Send game mode to fragment
         //TODO: Together with player info create a TicTakToe object and send to games
         println("$gameMode")
-        setUpGame()
+        setUpGame(TicTakToe(Player("Henrik"), gameMode))
     }
 
-    private fun setUpGame(){
-        println("Create Game")
+    private fun setUpGame(game: TicTakToe){
         fragmentManager
             .beginTransaction()
-            .replace(R.id.game_content_frame, BoardFragment())
+            .replace(R.id.game_content_frame, BoardFragment(game))
             .addToBackStack(null)
             .commit()
     }
