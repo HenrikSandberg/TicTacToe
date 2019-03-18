@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
-        setUpGameAIMode()
+        setUpMainMenu()
     }
 
     fun createGame(gameMode: GameMode){
@@ -22,6 +22,13 @@ class MainActivity : AppCompatActivity() {
         //TODO: Together with player info create a TicTakToe object and send to games
         println("$gameMode")
         setUpGame(TicTakToe(Player("Henrik"), gameMode))
+    }
+
+    private fun setUpMainMenu(){
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.game_content_frame, MainMenuFragment())
+            .commit()
     }
 
     private fun setUpGame(game: TicTakToe){
@@ -32,11 +39,19 @@ class MainActivity : AppCompatActivity() {
             .commit()
     }
 
-    private fun setUpGameAIMode(){
+    fun setUpAIGame(){
         fragmentManager
             .beginTransaction()
             .replace(R.id.game_content_frame, SetUpGameAgainstAIFragment())
             .addToBackStack(null)
             .commit()
+    }
+
+    fun setUpHighScore(){
+        println("Set Up high score!")
+    }
+
+    fun setUpPVPGame(){
+        println("PVP Game press!")
     }
 }

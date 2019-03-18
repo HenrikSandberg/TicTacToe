@@ -13,7 +13,8 @@ import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
 
-class BoardFragment @SuppressLint("ValidFragment") constructor(game: TicTakToe) : Fragment() {
+@SuppressLint("ValidFragment")
+class BoardFragment(game: TicTakToe) : Fragment() {
     private var ticTakToeGame = game
     //TicTakToe(Player("Henrik"), GameMode.IMPOSSIBLE)
 
@@ -48,7 +49,7 @@ class BoardFragment @SuppressLint("ValidFragment") constructor(game: TicTakToe) 
             when (reset) {
                 true -> R.color.transparent
                 false -> resources.getIdentifier (
-                    if (ticTakToeGame.oJustPlayed()) "o" else "x",
+                    if (ticTakToeGame.oJustPlayed()) "ic_circle" else "ic_cross",
                     "drawable",
                     activity!!.packageName
                 )

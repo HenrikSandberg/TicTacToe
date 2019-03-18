@@ -22,4 +22,7 @@
     <string name="button_bottom_rigth">button bottom rigth</string>
     <string name="hard">HARD</string>
     <string name="play_against">Play Against</string>
+    <string name="player_vs_player">Player vs Player</string>
+    <string name="player_vs_computer">Player vs Computer</string>
+    <string name="high_score">High Score</string>
 </resources>

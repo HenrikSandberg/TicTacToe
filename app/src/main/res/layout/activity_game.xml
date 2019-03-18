@@ -5,7 +5,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/colorPrimary"
+        android:background="@drawable/spacebg"
 >
     <FrameLayout
             android:id="@+id/game_content_frame"
