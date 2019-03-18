@@ -2,17 +2,17 @@ package com.example.tictactoe.model
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.core.view.children
+import androidx.fragment.app.DialogFragment
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.GameMode
 import kotlinx.android.synthetic.main.fragment_set_up_game_against_ai.*
 
-class SetUpGameAgainstAIFragment : Fragment() {
+class SetUpGameAgainstAIFragment : DialogFragment() {
 
     private var gameMode = GameMode.IMPOSSIBLE
 
@@ -43,26 +43,21 @@ class SetUpGameAgainstAIFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         game_mode_selector.children.forEach {
-            val child = it as RadioButton
-            child.setOnClickListener{
-                if (child.isChecked){
-                    gameMode = when(child.id) {
+            val radioButton = it as RadioButton
+            radioButton.setOnClickListener{
+                if (radioButton.isChecked){
+                    gameMode = when(radioButton.id) {
                         R.id.easy -> GameMode.EASY
                         R.id.medium -> GameMode.HARD
                         else -> GameMode.IMPOSSIBLE
                     }
-                    println("GAME MODE IS NOW $gameMode")
                     updateUI()
                 }
             }
         }
 
         set_up_game_against_ai_button.setOnClickListener {
-            game_mode_selector.children.forEach {
-                println("LETS PLAY!")
-                val activity = activity as MainActivity
-                activity.createGame(gameMode)
-            }
+            (activity as MainActivity).createGame(gameMode)
         }
         updateUI()
     }

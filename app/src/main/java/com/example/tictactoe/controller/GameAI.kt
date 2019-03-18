@@ -21,7 +21,7 @@ class GameAI(_gameMode: GameMode) {
     fun makeMove(board: Array<Int>): Int {
         if (gameMode == GameMode.IMPOSSIBLE) {
             if (!validityOfBoard(board)) {
-                return minMax(board, 7, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
+                return minMax(board, 8, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
             }
         } else if (gameMode == GameMode.HARD) {
             (0..1).forEach { player ->
@@ -47,14 +47,12 @@ class GameAI(_gameMode: GameMode) {
 
     /******************************** HARD ********************************/
     private fun attackOrDefend(board: Array<Int>, player: Int): Int {
-        // Make sure the code don't favor column, row or cross over one and other
-        listOf(
+        listOf( // Make sure the code don't favor column, row or cross over one and other
             rowOpportunities(board, player),
             columnOpportunities(board, player),
             crossOpportunities(board, player)
         ).shuffled()
             .forEach { item -> if (item != -1) return item }
-
         return -1
     }
 
@@ -87,16 +85,12 @@ class GameAI(_gameMode: GameMode) {
 
     private fun crossOpportunities(board: Array<Int>, player: Int): Int {
         var position = 0
-
         if ((board[0] + board[4] + board[8]) == (2 * player)) {
-
             do {
                 if (board[position] == 0) return position
                 position += 4
             } while (position < 9)
-
         } else if ((board[2] + board[4] + board[6]) == (2 * player)) {
-
             position = 2
             do {
                 if (board[position] == 0) return position

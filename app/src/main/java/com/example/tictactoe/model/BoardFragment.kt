@@ -55,7 +55,7 @@ class BoardFragment : Fragment() {
         )
     }
 
-    private fun selectRouteClick(view: View){
+    private fun selectRouteClick(view: View) {
         val imageButton = view as ImageButton
         val position = imageButton.tag as String
         if (ticTakToeGame.makePlayerMoveIfLegal(position.toInt())) {

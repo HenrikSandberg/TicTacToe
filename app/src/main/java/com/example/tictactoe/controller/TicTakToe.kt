@@ -8,7 +8,6 @@ class TicTakToe {
     private var oTurn = true
     private var board = arrayOf(0,0,0,0,0,0,0,0,0)
 
-
     /******************************** Public ********************************/
     constructor (player1: Player, player2: Player) { // Player vs Player
         p1 = player1

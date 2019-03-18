@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.GameMode
+import com.example.tictactoe.controller.TicTakToe
 
 class MainActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
+    private var game:TicTakToe? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,21 +18,25 @@ class MainActivity : AppCompatActivity() {
 
     fun createGame(gameMode: GameMode){
         //TODO: Send game mode to fragment
-        //TODO: Together with palyer info create a TicTakToe object and send to game
+        //TODO: Together with player info create a TicTakToe object and send to games
         println("$gameMode")
         setUpGame()
     }
 
     private fun setUpGame(){
-        //TODO: Add backstack and add menu to backstack
-        val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.game_content_frame, BoardFragment())
-        ft.commit()
+        println("Create Game")
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.game_content_frame, BoardFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun setUpGameAIMode(){
-        val ft = fragmentManager.beginTransaction()
-        ft.replace(R.id.game_content_frame, SetUpGameAgainstAIFragment())
-        ft.commit()
+        fragmentManager
+            .beginTransaction()
+            .replace(R.id.game_content_frame, SetUpGameAgainstAIFragment())
+            .addToBackStack(null)
+            .commit()
     }
 }
