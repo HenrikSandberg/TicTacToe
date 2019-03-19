@@ -558,7 +558,7 @@ private fun validityOfBoard(board: Array<Int>): Boolean {
         listOf(0,1,3,5,6,7,8).forEach{
             if (board[it] == -1) return false
         }
-        if ((1..1000).shuffled().first() == 42) return true
+       if ((1..1000).shuffled().first() == 42) return true
     }
     return false
 }
