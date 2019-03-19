@@ -3,6 +3,7 @@ import android.R
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
+import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -12,8 +13,10 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageButton
 import androidx.core.view.get
+import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
+import kotlin.concurrent.thread
 
 @SuppressLint("ValidFragment")
 class BoardFragment(game: TicTakToe) : Fragment() {
@@ -58,6 +61,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
             }
         )
         popScaleAnimation(imageButton)
+        updateTurn()
     }
 
     private fun popScaleAnimation(view: View){
@@ -72,17 +76,29 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     }
 
     private fun selectRouteClick(view: View) {
-        updateClickable(false)
-
         val imageButton = view as ImageButton
-        val position = imageButton.tag as String
-        if (ticTakToeGame.makePlayerMoveIfLegal(position.toInt())) {
+        if (ticTakToeGame.makePlayerMoveIfLegal((imageButton.tag as String).toInt())) {
             setImage(imageButton, false)
-            updateTurn()
-            Handler().postDelayed({ // Feels like the AI is "thinking"
-                aiTurn(ticTakToeGame.makeAIMove())
-                updateClickable(true)
-            }, (1..300).shuffled().first().toLong())
+
+            if(ticTakToeGame.getGameMode() != GameMode.PVP){
+
+                updateClickable(false)
+                var move = -1
+
+                //Don't run the MinMax on the main UI thread. This make sure that the app does not get any animation glitches
+                thread{
+                    move = ticTakToeGame.makeAIMove()
+                }.join()
+
+                if (move != -1) {
+                    Handler().postDelayed({ // Feels like the AI is "thinking"
+                        aiTurn(move)
+                        updateClickable(true)
+                    }, (50..300).shuffled().first().toLong())
+                } else {
+                    updateClickable(true)
+                }
+            }
         }
     }
 
@@ -93,12 +109,9 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     }
 
     private fun aiTurn(move: Int) {
-        if (move != -1) {
-            ( 0 until grid_for_game.childCount).forEach { position ->
-                if (grid_for_game[position].tag.toString().toInt() == move)
-                    setImage(grid_for_game[position] as ImageButton, false)
-            }
-            updateTurn()
+        ( 0 until grid_for_game.childCount).forEach { position ->
+            if (grid_for_game[position].tag.toString().toInt() == move)
+                setImage(grid_for_game[position] as ImageButton, false)
         }
     }
 

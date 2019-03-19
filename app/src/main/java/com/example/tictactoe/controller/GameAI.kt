@@ -1,6 +1,7 @@
 package com.example.tictactoe.controller
 
 enum class GameMode {
+    PVP,
     EASY,
     HARD,
     IMPOSSIBLE
