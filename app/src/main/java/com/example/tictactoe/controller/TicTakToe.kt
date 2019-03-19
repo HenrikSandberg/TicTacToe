@@ -4,7 +4,6 @@ class TicTakToe {
     private var p1:Player? = null
     private var p2:Player? = null
     private var ai:GameAI? = null
-    private var gameMode = GameMode.PVP
 
     private var oTurn = true
     private var board = arrayOf(0,0,0,0,0,0,0,0,0)
@@ -18,14 +17,13 @@ class TicTakToe {
     constructor (player: Player, difficulty: GameMode) { //Play vs computer
         p1 = player
         ai = GameAI(difficulty)
-        gameMode = difficulty
     }
 
     fun nextPlayer(): String{ return returnName(oTurn) }
     fun priviesPlayer(): String{ return returnName(!oTurn) }
     fun oJustPlayed(): Boolean { return !oTurn }
     fun noEmpty(): Boolean { return board.none { it == 0 } }
-    fun getGameMode(): GameMode {return gameMode}
+    fun getGameMode(): GameMode {return ai?.getGameMode() ?: GameMode.PVP}
 
     fun makePlayerMoveIfLegal(position: Int): Boolean {
         return if (!doWeHaveAWinner() && isEmpty(position)) {

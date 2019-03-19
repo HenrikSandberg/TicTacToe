@@ -11,6 +11,8 @@ class GameAI(_gameMode: GameMode) {
     private val gameMode = _gameMode
 
     /******************************** PUBLIC ********************************/
+    fun getGameMode(): GameMode {return gameMode}
+
     fun getAIName(): String {
         return when (gameMode) {
             GameMode.IMPOSSIBLE -> "Deep Thought"
@@ -22,7 +24,7 @@ class GameAI(_gameMode: GameMode) {
     fun makeMove(board: Array<Int>): Int {
         if (gameMode == GameMode.IMPOSSIBLE) {
             if (!validityOfBoard(board)) {
-                return minMax(board, 8, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
+                return minMax(board, 9, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
             }
         } else if (gameMode == GameMode.HARD) {
             (0..1).forEach { player ->

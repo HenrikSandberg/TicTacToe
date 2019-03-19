@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.core.view.get
 import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.TicTakToe
@@ -81,12 +82,12 @@ class BoardFragment(game: TicTakToe) : Fragment() {
             setImage(imageButton, false)
 
             if(ticTakToeGame.getGameMode() != GameMode.PVP){
-
                 updateClickable(false)
                 var move = -1
 
-                //Don't run the MinMax on the main UI thread. This make sure that the app does not get any animation glitches
-                thread{
+                //Don't want to run the MinMax on the main UI thread.
+                //This make sure that the app does not get any animation glitches
+                thread {
                     move = ticTakToeGame.makeAIMove()
                 }.join()
 
@@ -94,7 +95,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
                     Handler().postDelayed({ // Feels like the AI is "thinking"
                         aiTurn(move)
                         updateClickable(true)
-                    }, (50..300).shuffled().first().toLong())
+                   }, (50..300).shuffled().first().toLong())
                 } else {
                     updateClickable(true)
                 }
@@ -117,9 +118,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun updateTurn(){
-        val display = next_turn_text
-
-        display.text =  when {
+        (next_turn_text as TextView).text =  when {
             ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.priviesPlayer()} won!"
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
