@@ -3,6 +3,7 @@ import android.R
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
+import android.graphics.drawable.AnimationDrawable
 import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.os.Handler
@@ -18,6 +19,8 @@ import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
 import kotlin.concurrent.thread
+import java.util.concurrent.locks.*
+
 
 @SuppressLint("ValidFragment")
 class BoardFragment(game: TicTakToe) : Fragment() {
@@ -41,6 +44,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
             }
             ticTakToeGame.resetGame()
             updateTurn()
+            updateClickable(true)
         }
 
         (0 until grid_for_game.childCount).forEach { position ->
@@ -65,7 +69,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         updateTurn()
     }
 
-    private fun popScaleAnimation(view: View){
+    private fun popScaleAnimation(view: ImageButton){
         ObjectAnimator.ofPropertyValuesHolder(
             view,
             PropertyValuesHolder.ofFloat(View.SCALE_X, 0.5f, 1f),
@@ -76,12 +80,13 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         }.start()
     }
 
-    private fun selectRouteClick(view: View) {
+     private fun selectRouteClick(view: View) {
         val imageButton = view as ImageButton
+
         if (ticTakToeGame.makePlayerMoveIfLegal((imageButton.tag as String).toInt())) {
             setImage(imageButton, false)
 
-            if(ticTakToeGame.getGameMode() != GameMode.PVP){
+            if(ticTakToeGame.getGameMode() != GameMode.PVP) {
                 updateClickable(false)
                 var move = -1
 
@@ -95,7 +100,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
                     Handler().postDelayed({ // Feels like the AI is "thinking"
                         aiTurn(move)
                         updateClickable(true)
-                   }, (50..300).shuffled().first().toLong())
+                    }, (50..300).shuffled().first().toLong())
                 } else {
                     updateClickable(true)
                 }
@@ -105,7 +110,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
 
     private fun updateClickable(clickableStatus: Boolean) {
         (0 until grid_for_game.childCount).forEach { position ->
-            grid_for_game[position].isClickable = clickableStatus
+            grid_for_game[position].isEnabled = clickableStatus
         }
     }
 

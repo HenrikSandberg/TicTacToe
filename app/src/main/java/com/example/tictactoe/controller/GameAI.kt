@@ -11,7 +11,7 @@ class GameAI(_gameMode: GameMode) {
     private val gameMode = _gameMode
 
     /******************************** PUBLIC ********************************/
-    fun getGameMode(): GameMode {return gameMode}
+    fun getGameMode(): GameMode = gameMode
 
     fun getAIName(): String {
         return when (gameMode) {
@@ -120,7 +120,9 @@ class GameAI(_gameMode: GameMode) {
 
             currentScore = minMax(board, depth - 1, -player)[0]
 
-            if (if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)) {
+            val condition = if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)
+
+            if (condition) {
                 bestScore = currentScore
                 bestMove = position
             }
@@ -137,8 +139,7 @@ class GameAI(_gameMode: GameMode) {
         if (doWeHaveAWinner(board)) return moves
 
         (0 until board.size) //Makes a list of all empty spaces on the board
-            .filter { board[it] == 0 }
-            .forEach { moves.add(it) }
+            .forEach {if (board[it] == 0) moves.add(it) }
         return moves
     }
 
@@ -149,9 +150,9 @@ class GameAI(_gameMode: GameMode) {
         if (leftToRight == -3 || leftToRight == 3 || rightToLeft == -3 || rightToLeft == 3)
             return true
 
-        (0..2).forEach { i ->
-            val valueRow = board[i * 3] + board[(i * 3) + 1] + board[(i * 3) + 2]
-            val valueColumn = board[i] + board[i + 3] + board[i + 6]
+        (0..2).forEach { position ->
+            val valueRow = board[position * 3] + board[(position * 3) + 1] + board[(position * 3) + 2]
+            val valueColumn = board[position] + board[position + 3] + board[position + 6]
 
             if (valueRow == -3 || valueRow == 3 || valueColumn == -3 || valueColumn == 3)
                 return true

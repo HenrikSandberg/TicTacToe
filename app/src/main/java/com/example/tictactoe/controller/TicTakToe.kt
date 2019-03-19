@@ -19,11 +19,11 @@ class TicTakToe {
         ai = GameAI(difficulty)
     }
 
-    fun nextPlayer(): String{ return returnName(oTurn) }
-    fun priviesPlayer(): String{ return returnName(!oTurn) }
-    fun oJustPlayed(): Boolean { return !oTurn }
-    fun noEmpty(): Boolean { return board.none { it == 0 } }
-    fun getGameMode(): GameMode {return ai?.getGameMode() ?: GameMode.PVP}
+    fun nextPlayer(): String = returnName(oTurn)
+    fun priviesPlayer(): String =returnName(!oTurn)
+    fun oJustPlayed(): Boolean = !oTurn
+    fun noEmpty(): Boolean = board.none { it == 0 }
+    fun getGameMode(): GameMode = ai?.getGameMode() ?: GameMode.PVP
 
     fun makePlayerMoveIfLegal(position: Int): Boolean {
         return if (!doWeHaveAWinner() && isEmpty(position)) {
@@ -41,7 +41,6 @@ class TicTakToe {
     }
 
     //TODO: Add logic so that player stats are updated here
-    //TODO: If you win against easy, you will not increase your wins, however if you draw or loos, that will increase
     //TODO: Make rematch with switch of players symbol
     fun resetGame() {
         oTurn = true
@@ -66,15 +65,15 @@ class TicTakToe {
     }
 
     /******************************** Private ********************************/
-    private fun isEmpty(position: Int): Boolean { return (board[position] == 0) }
+    private fun isEmpty(position: Int): Boolean = board[position] == 0
 
     private fun updateGame(position: Int){
         board[position] = if (oTurn) -1 else 1
         oTurn = !oTurn
     }
 
-    private fun returnName(bool: Boolean): String {
-        return if (bool) p1.toString()
+    private fun returnName(isItOTurn: Boolean): String {
+        return if (isItOTurn) p1.toString()
         else when (p2 != null) {
             true -> p2.toString()
             else -> ai?.getAIName() ?: "Computer"
