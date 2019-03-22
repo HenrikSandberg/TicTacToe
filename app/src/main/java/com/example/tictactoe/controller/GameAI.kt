@@ -1,5 +1,7 @@
 package com.example.tictactoe.controller
 
+import kotlin.concurrent.thread
+
 enum class GameMode {
     PVP,
     EASY,
@@ -17,14 +19,17 @@ class GameAI(_gameMode: GameMode) {
         return when (gameMode) {
             GameMode.IMPOSSIBLE -> "Deep Thought"
             GameMode.HARD -> "Marvin"
-            else -> "Eddie the Computer"
+            else -> "Eddie"
         }
     }
 
     fun makeMove(board: Array<Int>): Int {
         if (gameMode == GameMode.IMPOSSIBLE) {
             if (!validityOfBoard(board)) {
-                return minMax(board, 9, 1)[1] //minMaxReturns an array, at index 0 is the predicted outcome of move
+                //Don't want to run the MinMax on the main UI thread.
+                //This make sure that the app does not get any animation glitches
+                //minMaxReturns an array, at index 0 is the predicted outcome of move
+                return minMax(board, 9, 1)[1]
             }
         } else if (gameMode == GameMode.HARD) {
             (0..1).forEach { player ->
@@ -108,7 +113,6 @@ class GameAI(_gameMode: GameMode) {
         val possibleMoveList = possibleMoves(board)
 
         var bestScore = if (player == 1) Int.MIN_VALUE else Int.MAX_VALUE
-
         var currentScore: Int
         var bestMove = -1
 

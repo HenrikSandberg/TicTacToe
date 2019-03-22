@@ -8,8 +8,8 @@
         android:background="@drawable/spacebg"
 >
     <FrameLayout
-            android:id="@+id/game_content_frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        android:id="@+id/game_content_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     </FrameLayout>
 </LinearLayout>

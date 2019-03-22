@@ -25,4 +25,10 @@
     <string name="player_vs_player">Player vs Player</string>
     <string name="player_vs_computer">Player vs Computer</string>
     <string name="high_score">High Score</string>
+    <string name="choose_or_create_a_player">Choose or create a player</string>
+    <string name="write_your_name_if_you_don_t_have_a_user">Write your name if you don\'t have a user</string>
+    <string name="choose_player_1">Choose Player 1</string>
+    <string name="choose_player_2">Choose Player 2</string>
+    <string name="add_player_two">Add player two</string>
+    <string name="add_player_one">add player one</string>
 </resources>

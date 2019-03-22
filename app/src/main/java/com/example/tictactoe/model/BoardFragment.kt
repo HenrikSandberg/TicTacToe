@@ -88,14 +88,8 @@ class BoardFragment(game: TicTakToe) : Fragment() {
 
             if(ticTakToeGame.getGameMode() != GameMode.PVP) {
                 updateClickable(false)
-                var move = -1
 
-                //Don't want to run the MinMax on the main UI thread.
-                //This make sure that the app does not get any animation glitches
-                thread {
-                    move = ticTakToeGame.makeAIMove()
-                }.join()
-
+                val move = ticTakToeGame.makeAIMove()
                 if (move != -1) {
                     Handler().postDelayed({ // Feels like the AI is "thinking"
                         aiTurn(move)

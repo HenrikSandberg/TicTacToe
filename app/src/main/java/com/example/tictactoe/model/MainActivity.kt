@@ -7,6 +7,7 @@ import android.transition.Explode
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.View
+import android.widget.ArrayAdapter
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
@@ -27,26 +28,15 @@ class MainActivity : AppCompatActivity() {
     fun createGame(gameMode: GameMode){
         //TODO: Send game mode to fragment
         //TODO: Together with player info create a TicTakToe object and send to games
-        println("$gameMode")
-        setUpGame(TicTakToe(Player("Henrik"), gameMode))
+        setUpGame(TicTakToe("Henrik", gameMode))
     }
 
-    private fun setUpMainMenu(){
+    fun setUpPVPGame() {
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
             //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
-            .replace(R.id.game_content_frame, MainMenuFragment())
-            .commit()
-    }
-
-    private fun setUpGame(game: TicTakToe){
-        fragmentManager
-            .beginTransaction()
-            //.setTransition(TRANSIT_FRAGMENT_FADE)
-            .setTransition(TRANSIT_FRAGMENT_OPEN)
-            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
-            .replace(R.id.game_content_frame, BoardFragment(game))
+            .replace(R.id.game_content_frame, ChoosePlayerFragment())
             .addToBackStack(null)
             .commit()
     }
@@ -65,7 +55,23 @@ class MainActivity : AppCompatActivity() {
         println("Set Up high score!")
     }
 
-    fun setUpPVPGame(){
-        println("PVP Game press!")
+    private fun setUpMainMenu() {
+        fragmentManager
+            .beginTransaction()
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, MainMenuFragment())
+            .commit()
+    }
+
+    private fun setUpGame(game: TicTakToe) {
+        fragmentManager
+            .beginTransaction()
+            //.setTransition(TRANSIT_FRAGMENT_FADE)
+            .setTransition(TRANSIT_FRAGMENT_OPEN)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, BoardFragment(game))
+            .addToBackStack(null)
+            .commit()
     }
 }

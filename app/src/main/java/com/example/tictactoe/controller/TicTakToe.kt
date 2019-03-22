@@ -1,20 +1,20 @@
 package com.example.tictactoe.controller
 
 class TicTakToe {
-    private var p1:Player? = null
-    private var p2:Player? = null
+    private var p1:String? = null
+    private var p2:String? = null
     private var ai:GameAI? = null
 
     private var oTurn = true
     private var board = arrayOf(0,0,0,0,0,0,0,0,0)
 
     /******************************** Public ********************************/
-    constructor (player1: Player, player2: Player) { // Player vs Player
+    constructor (player1: String, player2: String) { // Player vs Player
         p1 = player1
         p2 = player2
     }
 
-    constructor (player: Player, difficulty: GameMode) { //Play vs computer
+    constructor (player: String, difficulty: GameMode) { //Play vs computer
         p1 = player
         ai = GameAI(difficulty)
     }
@@ -26,10 +26,12 @@ class TicTakToe {
     fun getGameMode(): GameMode = ai?.getGameMode() ?: GameMode.PVP
 
     fun makePlayerMoveIfLegal(position: Int): Boolean {
-        return if (!doWeHaveAWinner() && isEmpty(position)) {
-            updateGame(position)
-            true
-        } else false
+        return (
+            if (!doWeHaveAWinner() && isEmpty(position)) {
+                updateGame(position)
+                true
+            } else false
+        )
     }
 
     fun makeAIMove(): Int {
@@ -73,10 +75,12 @@ class TicTakToe {
     }
 
     private fun returnName(isItOTurn: Boolean): String {
-        return if (isItOTurn) p1.toString()
-        else when (p2 != null) {
-            true -> p2.toString()
-            else -> ai?.getAIName() ?: "Computer"
-        }
+        return (
+            if (isItOTurn) p1.toString()
+            else when (p2 != null) {
+                true -> p2.toString()
+                else -> ai?.getAIName() ?: "Computer"
+            }
+        )
     }
 }

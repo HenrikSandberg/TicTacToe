@@ -1,11 +1,17 @@
 package com.example.tictactoe.controller
 
-//TODO make as entity in database.
-class Player(name: String) {
-    private val player = name
-    private var numberOfWins = 0
-    private var numberOfLoos = 0
-    private var numberOfDraw = 0
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    override fun toString(): String { return player }
-}
+@Entity(tableName = "player_table")
+data class Player (
+    @PrimaryKey @ColumnInfo (name = "name")
+    val player:String,
+
+    @ColumnInfo (name = "wins")
+    var wins:Int,
+
+    @ColumnInfo (name = "score")
+    var score:Int
+)
