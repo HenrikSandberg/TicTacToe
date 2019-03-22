@@ -21,12 +21,14 @@ android {
     }
 }
 
+apply plugin: 'kotlin-kapt'
+
 dependencies {
     def room_version = "2.1.0-alpha05"
     def lifecycle_version = "2.0.0"
 
     implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     implementation "androidx.room:room-guava:$room_version"
@@ -44,6 +46,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.roomVersion"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.roomVersion"
     apply plugin: 'kotlin-kapt'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha03'

@@ -8,8 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [Player::class], version = 1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
     abstract fun getPlayerDAO(): PlayerDAO
-
-    companion object{
+    companion object {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
@@ -22,7 +21,7 @@ abstract class AppDatabase: RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "App_database"
+                    "app_database"
                 ).build()
 
                 INSTANCE = instance

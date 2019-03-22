@@ -1,5 +1,4 @@
 package com.example.tictactoe.controller
-
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -8,7 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
-
 class PlayerModel(application: Application): AndroidViewModel(application){
     private val repository: PlayerRepository
     val allPlayers: LiveData<List<Player>>
@@ -26,8 +24,8 @@ class PlayerModel(application: Application): AndroidViewModel(application){
     fun insert(player: Player) = scope.launch(Dispatchers.IO) {
         repository.insert(player)
     }
+
     fun delete() = scope.launch(Dispatchers.IO){
         repository.deleteAll()
     }
-
 }
