@@ -11,6 +11,8 @@ import com.example.tictactoe.controller.TicTakToe
 class MainActivity : AppCompatActivity() {
     private val fragmentManager = supportFragmentManager
     private lateinit var game:TicTakToe
+    private var playerOne: String? = null
+    private var playerTwo: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,12 +21,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun createGame(gameMode: GameMode){
-        //TODO: Send game mode to fragment
-        //TODO: Together with player info create a TicTakToe object and send to games
-        setUpGame(TicTakToe("Henrik", gameMode))
+        game = when (gameMode == GameMode.PVP){
+            true -> TicTakToe(playerOne!!, playerTwo!!)
+            else -> TicTakToe(playerOne!!, gameMode)
+        }
+        setUpGame(game)
     }
 
     fun setUpPVPGame() {
+        setUpPlayerOne()
+    }
+
+    private fun setUpPlayerOne(){
+        fragmentManager
+            .beginTransaction()
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, ChoosePlayerFragment())
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun setUpPlayerTwo(){
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
@@ -47,6 +65,9 @@ class MainActivity : AppCompatActivity() {
     fun setUpHighScore(){
         println("Set Up high score!")
     }
+
+    fun setPlayerOne(name: String){ playerOne = name }
+    fun setPlayerTwo(name: String){ playerTwo = name}
 
     private fun setUpMainMenu() {
         fragmentManager

@@ -31,4 +31,5 @@
     <string name="choose_player_2">Choose Player 2</string>
     <string name="add_player_two">Add player two</string>
     <string name="add_player_one">add player one</string>
+    <string name="add_new_player">Add new player</string>
 </resources>
