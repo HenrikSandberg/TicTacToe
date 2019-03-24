@@ -92,6 +92,12 @@ class MainActivity : AppCompatActivity() {
     //TODO: Create Fragment and populate with data
     fun setUpHighScore(){
         println("Set Up high score!")
+        fragmentManager
+            .beginTransaction()
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, HighScoreFragment())
+            .commit()
     }
 
     private fun setUpMainMenu() {

@@ -140,8 +140,10 @@ class GameAI(_gameMode: GameMode) {
 
         if (doWeHaveAWinner(board)) return moves
 
-        (0 until board.size) //Makes a list of all empty spaces on the board
-            .forEach {if (board[it] == 0) moves.add(it) }
+        //Makes a list of all empty spaces on the board
+        (0 until board.size).forEach {
+            if (board[it] == 0) moves.add(it)
+        }
         return moves
     }
 
