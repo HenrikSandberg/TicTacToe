@@ -1,7 +1,5 @@
 package com.example.tictactoe.controller
 
-import kotlin.concurrent.thread
-
 enum class GameMode {
     PVP,
     EASY,

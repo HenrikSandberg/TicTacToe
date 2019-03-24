@@ -11,10 +11,9 @@
         android:background="@drawable/background_with_shadow"
         android:elevation="2dp"
         android:id="@+id/mainLayout"
-        android:descendantFocusability="beforeDescendants"
-        android:focusableInTouchMode="true"
-><requestFocus/>
+>
     <TextView
+            android:id="@+id/top_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/choose_player_1"
