@@ -4,19 +4,18 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="400sp"
         android:layout_height="500sp"
-        tools:context=".model.SetUpGameAgainstAIFragment"
+        tools:context=".model.HighScoreFragment"
         android:orientation="vertical"
         android:layout_gravity="center"
+        android:gravity="center"
         android:background="@drawable/background_with_shadow"
         android:elevation="2dp"
-        android:id="@+id/mainLayout"
+        android:id="@+id/fragment_high_score"
 >
-    <androidx.recyclerview.widget.RecyclerView
+    <ListView
+            android:id="@+id/high_score_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scrollbars="vertical"
-            tools:context=".model.HighScoreFragment"
+            android:layout_height="wrap_content"
     />
 
 </LinearLayout>
