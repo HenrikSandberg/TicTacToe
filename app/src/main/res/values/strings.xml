@@ -36,4 +36,5 @@
     <string name="choose_player2">Choose Player 2</string>
     <string name="choose_player">Choose Player</string>
     <string name="choose_ai">Choose AI</string>
+    <string name="title_activity_high_score">HighScoreActivity</string>
 </resources>
