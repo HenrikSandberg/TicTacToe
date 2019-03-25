@@ -6,30 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.tictactoe.R
-
-
+import com.example.tictactoe.controller.Player
 import com.example.tictactoe.model.HighScoreFragment.OnListFragmentInteractionListener
-import com.example.tictactoe.model.dummy.DummyContent.DummyItem
-
 import kotlinx.android.synthetic.main.fragment_person.view.*
 
-/**
- * [RecyclerView.Adapter] that can display a [DummyItem] and makes a call to the
- * specified [OnListFragmentInteractionListener].
- * TODO: Replace the implementation with code for your data type.
- */
-class MypersonRecyclerViewAdapter(
-    private val mValues: List<DummyItem>,
+class MyPersonRecyclerViewAdapter(
+    private val mValues: List<Player>,
     private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MypersonRecyclerViewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<MyPersonRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 
     init {
         mOnClickListener = View.OnClickListener { v ->
-            val item = v.tag as DummyItem
-            // Notify the active callbacks interface (the activity, if the fragment is attached to
-            // one) that an item has been selected.
+            val item = v.tag as Player
             mListener?.onListFragmentInteraction(item)
         }
     }
@@ -43,8 +33,10 @@ class MypersonRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = mValues[position]
-        holder.mIdView.text = item.id
-        holder.mContentView.text = item.content
+        holder.mIdView.text = (position+1).toString()
+        holder.mNameView.text = item.name
+        holder.mWinView.text = item.wins.toString()
+        holder.mScoreView.text = item.score.toString()
 
         with(holder.mView) {
             tag = item
@@ -56,10 +48,12 @@ class MypersonRecyclerViewAdapter(
 
     inner class ViewHolder(val mView: View) : RecyclerView.ViewHolder(mView) {
         val mIdView: TextView = mView.item_number
-        val mContentView: TextView = mView.content
+        val mNameView: TextView = mView.name
+        val mWinView: TextView = mView.wins
+        val mScoreView: TextView = mView.score
 
         override fun toString(): String {
-            return super.toString() + " '" + mContentView.text + "'"
+            return super.toString() + " '" + mWinView.text + "'"
         }
     }
 }

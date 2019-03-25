@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction.*
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.GameMode
+import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
-import com.example.tictactoe.model.dummy.DummyContent
 
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
@@ -70,7 +68,7 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         addToFragmentManagerWithBackStack(HighScoreFragment())
     }
 
-    override fun onListFragmentInteraction(item: DummyContent.DummyItem?){
+    override fun onListFragmentInteraction(item: Player?){
         println("Something happens")
     }
 

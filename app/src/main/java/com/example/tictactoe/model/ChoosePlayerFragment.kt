@@ -9,11 +9,13 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.core.view.get
+import androidx.lifecycle.LiveData
 import com.example.tictactoe.controller.PlayerModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.Player
+import com.example.tictactoe.controller.PlayerRepository
 import kotlinx.android.synthetic.main.fragment_choose_player.*
 
 class ChoosePlayerFragment : Fragment() {

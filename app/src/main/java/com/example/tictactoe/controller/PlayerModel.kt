@@ -21,11 +21,7 @@ class PlayerModel(application: Application): AndroidViewModel(application){
         allPlayers = repository.allPlayersLive
     }
 
-    fun insert(player: Player) = scope.launch(Dispatchers.IO) {
-        repository.insert(player)
-    }
+    fun insert(player: Player) = scope.launch(Dispatchers.IO) { repository.insert(player) }
 
-    fun delete() = scope.launch(Dispatchers.IO){
-        repository.deleteAll()
-    }
+    fun delete() = scope.launch(Dispatchers.IO){ repository.deleteAll() }
 }

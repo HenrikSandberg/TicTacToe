@@ -3,22 +3,22 @@ package com.example.tictactoe.model
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-
-import com.example.tictactoe.model.dummy.DummyContent
-import com.example.tictactoe.model.dummy.DummyContent.DummyItem
-import kotlinx.android.synthetic.main.fragment_person_list.*
+import com.example.tictactoe.controller.Player
+import com.example.tictactoe.controller.PlayerModel
 
 class HighScoreFragment : Fragment() {
 
     private var columnCount = 1
     private var listener: OnListFragmentInteractionListener? = null
+    private lateinit var playerModel: PlayerModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +33,18 @@ class HighScoreFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_person_list, container, false)
         // Set the adapter
-
-        if (view is RecyclerView) {
-            with(view) {
-                layoutManager = LinearLayoutManager(activity)
-                adapter = MypersonRecyclerViewAdapter(DummyContent.ITEMS, activity as MainActivity)
+        playerModel = ViewModelProviders.of(this).get(PlayerModel::class.java)
+        playerModel.allPlayers.observe(this, Observer{ listOfPlayers ->
+            if (view is RecyclerView) {
+                with(view) {
+                    layoutManager = LinearLayoutManager(activity)
+                    adapter = MyPersonRecyclerViewAdapter(
+                        listOfPlayers.sortedBy {player -> player.score },
+                        activity as MainActivity
+                    )
+                }
             }
-        }
+        })
         return view
     }
 
@@ -57,28 +62,13 @@ class HighScoreFragment : Fragment() {
         listener = null
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson
-     * [Communicating with Other Fragments](http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
     interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onListFragmentInteraction(item: DummyItem?)
+        fun onListFragmentInteraction(item: Player?)
     }
 
     companion object {
-
-        // TODO: Customize parameter argument names
         const val ARG_COLUMN_COUNT = "column-count"
-
-        // TODO: Customize parameter initialization
         @JvmStatic
         fun newInstance(columnCount: Int) =
             HighScoreFragment().apply {
