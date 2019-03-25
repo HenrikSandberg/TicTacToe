@@ -64,8 +64,15 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     fun getPlayerOne(): String = playerOne ?: "Not Selected"
 
     fun setUpHighScore(){
-        println("Show High score!")
         addToFragmentManagerWithBackStack(HighScoreFragment())
+    }
+
+    fun gameIsOver(){
+        fragmentManager
+            .beginTransaction()
+            .setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, GameOverFragment())
+            .commit()
     }
 
     override fun onListFragmentInteraction(item: Player?){

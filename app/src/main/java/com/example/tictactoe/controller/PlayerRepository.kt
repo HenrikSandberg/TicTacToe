@@ -12,7 +12,16 @@ class PlayerRepository(private val playerDAO: PlayerDAO) {
     }
 
     @WorkerThread
+    suspend fun update(player: Player){
+        playerDAO.update(player)
+    }
+
+    @WorkerThread
     suspend fun deleteAll(){
         playerDAO.deleteAll()
     }
+
+
+
+
 }

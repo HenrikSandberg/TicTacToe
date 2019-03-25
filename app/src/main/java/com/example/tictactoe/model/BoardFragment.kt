@@ -122,5 +122,8 @@ class BoardFragment(game: TicTakToe) : Fragment() {
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
         }
+        if (ticTakToeGame.doWeHaveAWinner() || ticTakToeGame.noEmpty()){
+            (activity as MainActivity).gameIsOver()
+        }
     }
 }

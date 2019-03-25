@@ -41,7 +41,10 @@ class ChoosePlayerFragment : Fragment() {
             )
             personAdapter.clear()
             listOfPlayers.forEach { player -> //Make sure that player 1 and player 2 can't be the same person
-                when(currentInstance != 2){
+                when(currentInstance != 2
+                        && player.name != "Deep Thought"  //Makes also sure that you can't select one of the tree AI players
+                        && player.name != "Marvin"
+                        && player.name != "Eddie"){
                     true -> {
                         personAdapter.add(player.name)
                         players.add(player.name)
