@@ -15,21 +15,10 @@ import com.example.tictactoe.model.dummy.DummyContent
 import com.example.tictactoe.model.dummy.DummyContent.DummyItem
 import kotlinx.android.synthetic.main.fragment_person_list.*
 
-/**
- * A fragment representing a list of Items.
- * Activities containing this fragment MUST implement the
- * [HighScoreFragment.OnListFragmentInteractionListener] interface.
- */
 class HighScoreFragment : Fragment() {
 
-    // TODO: Customize parameters
     private var columnCount = 1
-
     private var listener: OnListFragmentInteractionListener? = null
-
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var viewAdapter: RecyclerView.Adapter<*>
-    private lateinit var viewManager: RecyclerView.LayoutManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,10 +36,7 @@ class HighScoreFragment : Fragment() {
 
         if (view is RecyclerView) {
             with(view) {
-                layoutManager = when {
-                    columnCount <= 1 -> LinearLayoutManager(activity)
-                    else -> GridLayoutManager(activity, columnCount)
-                }
+                layoutManager = LinearLayoutManager(activity)
                 adapter = MypersonRecyclerViewAdapter(DummyContent.ITEMS, activity as MainActivity)
             }
         }
