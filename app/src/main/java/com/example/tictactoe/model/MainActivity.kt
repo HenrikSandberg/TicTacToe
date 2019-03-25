@@ -89,7 +89,6 @@ class MainActivity : AppCompatActivity() {
 
     fun getPlayerOne(): String = playerOne ?: "Not Selected"
 
-    //TODO: Create Fragment and populate with data
     fun setUpHighScore(){
         println("Set Up high score!")
         fragmentManager

@@ -16,7 +16,6 @@ import com.example.tictactoe.R
 import com.example.tictactoe.controller.Player
 import kotlinx.android.synthetic.main.fragment_choose_player.*
 
-
 class ChoosePlayerFragment : Fragment() {
     private var currentInstance: Int? = null
     private lateinit var playerModel: PlayerModel
@@ -39,10 +38,16 @@ class ChoosePlayerFragment : Fragment() {
                 android.R.layout.simple_spinner_dropdown_item
             )
             personAdapter.clear()
-            listOfPlayers.forEach { player ->
-                if ((activity as MainActivity).getPlayerOne() != player.name){
-                    personAdapter.add(player.name)
-                    players.add(player.name)
+            listOfPlayers.forEach { player -> //Make sure that player 1 and player 2 can't be the same person
+                when(currentInstance != 2){
+                    true -> {
+                        personAdapter.add(player.name)
+                        players.add(player.name)
+                    }
+                    false -> if ((activity as MainActivity).getPlayerOne() != player.name){
+                        personAdapter.add(player.name)
+                        players.add(player.name)
+                    }
                 }
             }
             choose_player_spinner.adapter = personAdapter
@@ -53,7 +58,6 @@ class ChoosePlayerFragment : Fragment() {
                 selectedPlayer = players[0]
             }
         })
-
         setTextOnScreen()
     }
 

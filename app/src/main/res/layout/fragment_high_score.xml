@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-        android:id="@+id/high_score_list"
+<LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="400sp"
+        android:layout_height="500sp"
+        tools:context=".model.SetUpGameAgainstAIFragment"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@drawable/background_with_shadow"
+        android:elevation="2dp"
+        android:id="@+id/mainLayout"
 >
     <androidx.recyclerview.widget.RecyclerView
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:scrollbars="vertical"
             tools:context=".model.HighScoreFragment"
     />
 
-</RelativeLayout>
+</LinearLayout>
