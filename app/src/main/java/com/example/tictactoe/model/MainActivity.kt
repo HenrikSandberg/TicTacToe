@@ -3,23 +3,28 @@ package com.example.tictactoe.model
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.Player
 import com.example.tictactoe.controller.TicTakToe
 
+
+
+
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
     private lateinit var game:TicTakToe
     private var playerOne: String? = null
     private var playerTwo: String? = null
-
+    private val BACK_STACK_ROOT_TAG = "root_fragment"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+        fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         setUpMainMenu()
     }
 
@@ -70,8 +75,21 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     fun gameIsOver(){
         fragmentManager
             .beginTransaction()
-            .setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
             .replace(R.id.game_content_frame, GameOverFragment())
+            .addToBackStack(BACK_STACK_ROOT_TAG)
+            .commit()
+    }
+
+    fun playAgain(){
+        game.resetGame()
+        fragmentManager
+            .beginTransaction()
+            .setTransition(TRANSIT_FRAGMENT_FADE)
+            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
+            .replace(R.id.game_content_frame, BoardFragment(game))
+            .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
     }
 
@@ -89,7 +107,7 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
             .commit()
     }
 
-    private fun setUpMainMenu() {
+    fun setUpMainMenu() {
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)

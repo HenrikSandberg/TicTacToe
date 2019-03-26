@@ -2,9 +2,9 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="400sp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="30sp"
+        android:layout_width="match_parent"
+        android:layout_height="650sp"
+        android:layout_marginTop="10sp"
         android:layout_gravity="center"
         android:gravity="center"
         android:background="@drawable/background_with_shadow"
@@ -48,7 +48,8 @@
     </LinearLayout>
 
     <Button
-            android:text="Rematch"
+            android:id="@+id/rematch_button"
+            android:text="rematch"
             android:textColor="@color/white"
             android:background="@color/colorPrimary"
             android:layout_width="200sp"
@@ -56,6 +57,7 @@
             android:layout_marginBottom="20sp"
     />
     <Button
+            android:id="@+id/back_to_main_menu"
             android:text="Back to main menu"
             android:textColor="@color/white"
             android:background="@color/colorAccent"

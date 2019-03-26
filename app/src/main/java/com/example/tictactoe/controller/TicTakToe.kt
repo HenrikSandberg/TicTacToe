@@ -20,7 +20,7 @@ class TicTakToe {
     }
 
     fun nextPlayer(): String = returnName(oTurn)
-    fun priviesPlayer(): String =returnName(!oTurn)
+    fun previousPlayer(): String =returnName(!oTurn)
     fun oJustPlayed(): Boolean = !oTurn
     fun noEmpty(): Boolean = board.none { it == 0 }
     fun getGameMode(): GameMode = ai?.getGameMode() ?: GameMode.PVP

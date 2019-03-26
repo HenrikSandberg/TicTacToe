@@ -3,8 +3,6 @@ import android.R
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
-import android.graphics.drawable.AnimationDrawable
-import android.os.AsyncTask.execute
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
@@ -14,12 +12,10 @@ import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.view.get
+import androidx.core.view.forEach
 import com.example.tictactoe.controller.GameMode
 import com.example.tictactoe.controller.TicTakToe
 import kotlinx.android.synthetic.main.fragment_board.*
-import kotlin.concurrent.thread
-import java.util.concurrent.locks.*
 
 
 @SuppressLint("ValidFragment")
@@ -39,19 +35,12 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         updateTurn()
 
         resetButton.setOnClickListener {
-            ( 0 until grid_for_game.childCount).forEach{ position->
-                setImage(grid_for_game[position] as ImageButton, true)
-            }
+            grid_for_game.forEach { item-> setImage(item as ImageButton, true) }
             ticTakToeGame.resetGame()
             updateTurn()
             updateClickable(true)
         }
-
-        (0 until grid_for_game.childCount).forEach { position ->
-            grid_for_game[position].setOnClickListener { imageButton ->
-                selectRouteClick(imageButton)
-            }
-        }
+        grid_for_game.forEach { item -> item.setOnClickListener { selectRouteClick(item) } }
     }
 
     private fun setImage(imageButton: ImageButton, reset: Boolean) {
@@ -103,22 +92,20 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     }
 
     private fun updateClickable(clickableStatus: Boolean) {
-        (0 until grid_for_game.childCount).forEach { position ->
-            grid_for_game[position].isEnabled = clickableStatus
-        }
+        grid_for_game.forEach { item -> item.isEnabled = clickableStatus }
     }
 
     private fun aiTurn(move: Int) {
-        ( 0 until grid_for_game.childCount).forEach { position ->
-            if (grid_for_game[position].tag.toString().toInt() == move)
-                setImage(grid_for_game[position] as ImageButton, false)
+        grid_for_game.forEach { item ->
+            if (item.tag.toString().toInt() == move)
+                setImage(item as ImageButton, false)
         }
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateTurn(){
         (next_turn_text as TextView).text =  when {
-            ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.priviesPlayer()} won!"
+            ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.previousPlayer()} won!"
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
         }
