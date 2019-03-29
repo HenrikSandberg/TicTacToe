@@ -5,17 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
-import androidx.core.view.get
-import androidx.lifecycle.LiveData
 import com.example.tictactoe.controller.PlayerModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.Player
-import com.example.tictactoe.controller.PlayerRepository
 import kotlinx.android.synthetic.main.fragment_choose_player.*
 
 class ChoosePlayerFragment : Fragment() {
@@ -83,19 +78,26 @@ class ChoosePlayerFragment : Fragment() {
         /*TO NEXT FRAGMENT*/
         bottom_button_on_player_select.setOnClickListener {
             if ( choose_player_spinner.selectedItem != null ) {
-                selectedPlayer = choose_player_spinner.selectedItem!! as String
-                val act = (activity as MainActivity)
-                when (currentInstance) {
-                    1 -> act.setUpPlayerTwo(selectedPlayer!!)
-                    2 -> act.goToPVPGame(selectedPlayer!!)
-                    3 -> act.setUpAI(selectedPlayer!!)
-                    else-> println("Error accord")
-                }
-            }
+                goToNextFragment()
+            } /*else if (add_player_text.text.isNotEmpty() && doesNotContain()) {
+                handleText()
+                goToNextFragment()
+            }*/
         }
     }
 
     fun setInstance(instance: Int){ currentInstance = instance }
+
+    private fun goToNextFragment(){
+        selectedPlayer = choose_player_spinner.selectedItem!! as String
+        val act = (activity as MainActivity)
+        when (currentInstance) {
+            1 -> act.setUpPlayerTwo(selectedPlayer!!)
+            2 -> act.goToPVPGame(selectedPlayer!!)
+            3 -> act.setUpAI(selectedPlayer!!)
+            else-> println("Error accord")
+        }
+    }
 
     private fun doesNotContain():Boolean = players.none { (it == add_player_text.text.toString()) }
 

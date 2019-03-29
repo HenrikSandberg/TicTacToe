@@ -73,11 +73,14 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     }
 
     fun gameIsOver(){
+        val gameOverScreen = GameOverFragment()
+        gameOverScreen.updatePlayerDatabase(game.getPlayerOne(), game.getPlayerTwo(), game.whoWon())
+
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
             //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
-            .replace(R.id.game_content_frame, GameOverFragment())
+            .replace(R.id.game_content_frame, gameOverScreen)
             .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
     }

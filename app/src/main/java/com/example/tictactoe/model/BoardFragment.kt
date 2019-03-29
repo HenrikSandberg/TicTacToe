@@ -103,13 +103,16 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun updateTurn(){
+    private fun updateTurn() {
         (next_turn_text as TextView).text =  when {
             ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.previousPlayer()} won!"
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
         }
-        if (ticTakToeGame.doWeHaveAWinner() || ticTakToeGame.noEmpty()){
+        if (ticTakToeGame.doWeHaveAWinner()) {
+            (activity as MainActivity).gameIsOver()
+            
+        } else if (ticTakToeGame.noEmpty()) {
             (activity as MainActivity).gameIsOver()
         }
     }

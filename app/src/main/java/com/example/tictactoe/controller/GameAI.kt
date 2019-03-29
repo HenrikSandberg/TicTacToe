@@ -9,7 +9,6 @@ enum class GameMode {
 
 class GameAI(_gameMode: GameMode) {
     private val gameMode = _gameMode
-
     /******************************** PUBLIC ********************************/
     fun getGameMode(): GameMode = gameMode
 
