@@ -35,19 +35,18 @@ class ChoosePlayerFragment : Fragment() {
                 android.R.layout.simple_spinner_dropdown_item
             )
             personAdapter.clear()
-            listOfPlayers.forEach { player -> //Make sure that player 1 and player 2 can't be the same person
-                when(currentInstance != 2
-                        && player.name != "Deep Thought"  //Makes also sure that you can't select one of the tree AI players
-                        && player.name != "Marvin"
-                        && player.name != "Eddie"){
-                    true -> {
-                        personAdapter.add(player.name)
-                        players.add(player.name)
-                    }
-                    false -> if ((activity as MainActivity).getPlayerOne() != player.name){
-                        personAdapter.add(player.name)
-                        players.add(player.name)
-                    }
+            listOfPlayers
+                .filter { player -> player.name != "Deep Thought" && player.name != "Marvin" && player.name != "Eddie"}  //Makes also sure that you can't select one of the tree AI players
+                .forEach { player -> //Make sure that player 1 and player 2 can't be the same person
+                    when(currentInstance != 2) {
+                        true -> {
+                            personAdapter.add(player.name)
+                            players.add(player.name)
+                        }
+                        false -> if ((activity as MainActivity).getPlayerOne() != player.name){
+                            personAdapter.add(player.name)
+                            players.add(player.name)
+                        }
                 }
             }
             choose_player_spinner.adapter = personAdapter
@@ -77,24 +76,24 @@ class ChoosePlayerFragment : Fragment() {
 
         /*TO NEXT FRAGMENT*/
         bottom_button_on_player_select.setOnClickListener {
-            if ( choose_player_spinner.selectedItem != null ) {
-                goToNextFragment()
-            } /*else if (add_player_text.text.isNotEmpty() && doesNotContain()) {
+            if (add_player_text.text.isNotEmpty() && doesNotContain()) {
                 handleText()
                 goToNextFragment()
-            }*/
+            } else if ( choose_player_spinner.selectedItem != null ) {
+                goToNextFragment()
+            }
         }
     }
 
     fun setInstance(instance: Int){ currentInstance = instance }
 
     private fun goToNextFragment(){
-        selectedPlayer = choose_player_spinner.selectedItem!! as String
-        val act = (activity as MainActivity)
+        selectedPlayer = selectedPlayer ?: choose_player_spinner.selectedItem!! as String
+        val mainActivity = (activity as MainActivity)
         when (currentInstance) {
-            1 -> act.setUpPlayerTwo(selectedPlayer!!)
-            2 -> act.goToPVPGame(selectedPlayer!!)
-            3 -> act.setUpAI(selectedPlayer!!)
+            1 -> mainActivity.setUpPlayerTwo(selectedPlayer!!)
+            2 -> mainActivity.goToPVPGame(selectedPlayer!!)
+            3 -> mainActivity.setUpAI(selectedPlayer!!)
             else-> println("Error accord")
         }
     }

@@ -39,7 +39,7 @@ class HighScoreFragment : Fragment() {
                 with (view) {
                     layoutManager = LinearLayoutManager (activity)
                     adapter = MyPersonRecyclerViewAdapter (
-                        listOfPlayers.sortedByDescending { player -> player.score + player.wins }, // TODO: not sure i should sort by  player.score + player.wins || player.score || player.wins
+                        listOfPlayers.sortedByDescending { player -> player.score }, // TODO: not sure i should sort by  player.score + player.wins || player.score || player.wins
                         activity as MainActivity
                     )
                 }

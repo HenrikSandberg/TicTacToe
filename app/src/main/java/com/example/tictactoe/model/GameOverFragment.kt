@@ -43,47 +43,50 @@ class GameOverFragment : Fragment() {
     }
 
     private fun update (players: List<Player>) {
-        if (p1 != null && p2 != null && whoWon != null){
-            val player1:Player? = getPlayer(p1!!, players)
-            val player2:Player? = getPlayer(p2!!, players)
-
-            if (player1 != null){
-                player1.score +=  updateScore(whoWon!!, p2!!)
-                if (whoWon == 1) player1.wins++
-                playerModel.update(player1)
+        if (p1 != null && p2 != null && whoWon != null) {
+            val player1 = getPlayer(p1!!, players)
+            if (player1 != null) {
+                updatePlayerData(player1, whoWon!!, p2!!)
+            } else {
+                insertNewPlayer(p1!!, whoWon!!, p2!!)
             }
 
-            if (player2 != null){
-                val item = when(whoWon!!){
-                    1 -> 2
-                    2 -> 1
-                    else -> 0
-                }
-                player2.score +=  updateScore(item, p1!!)
-                if (item == 1) {
-                    player2.wins++
-                }
-                playerModel.update(player2)
+            val player2 = getPlayer(p2!!, players)
+            val inverseWhoWon = when(whoWon!!) {
+                1 -> 2
+                2 -> 1
+                else -> 0
+            }
+
+            if (player2 != null) {
+                updatePlayerData(player2, inverseWhoWon, p1!!)
             } else {
-                val item = when(whoWon!!){
-                    1 -> 2
-                    2 -> 1
-                    else -> 0
-                }
-                playerModel.insert(
-                    Player(p2!!,
-                        if (item == 1)  1 else 0,
-                        updateScore(item, p1!!))
-                )
+                insertNewPlayer(p2!!, inverseWhoWon, p1!!)
             }
         }
     }
 
+    private fun updatePlayerData(player: Player, winnerState: Int, nameOfOtherPlayer: String){
+        player.score += updateScore(winnerState, nameOfOtherPlayer)
+        if (winnerState == 1) player.wins++
+        playerModel.update(player)
+    }
+
+    private fun insertNewPlayer(playerName: String, winnerState: Int, nameOfOtherPlayer: String){
+        playerModel.insert( //Create Player in database
+            Player(
+                playerName,
+                if (winnerState == 1)  1 else 0,
+                updateScore(winnerState, nameOfOtherPlayer)
+            )
+        )
+    }
+
     private fun getPlayer(player: String, players: List<Player>): Player?{
         return (
-                if (players.any { playerInList ->  playerInList.name == player })
-                    players.first { playerInList -> playerInList.name == player }
-                else null
+            if (players.any { playerInList ->  playerInList.name == player })
+                players.first { playerInList -> playerInList.name == player }
+            else null
         )
     }
 
