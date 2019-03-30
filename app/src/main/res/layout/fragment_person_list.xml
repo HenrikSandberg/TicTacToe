@@ -4,6 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:name="com.example.tictactoe.model.HighScoreFragment"
+        android:id="@+id/recyclerview"
         android:orientation="vertical"
         android:layout_width="400sp"
         android:layout_height="500sp"

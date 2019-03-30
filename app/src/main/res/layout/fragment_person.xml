@@ -4,15 +4,15 @@
               android:layout_height="wrap_content"
               android:orientation="horizontal"
               android:gravity="center"
+              android:layout_marginStart="20sp"
+              android:layout_marginEnd="20sp"
 >
 
     <TextView
-            android:layout_marginStart="10sp"
             android:textSize="20sp"
             android:id="@+id/item_number"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_weight="1"
     />
@@ -20,9 +20,8 @@
     <TextView
             android:textSize="20sp"
             android:id="@+id/name"
-            android:layout_width="wrap_content"
+            android:layout_width="250sp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_weight="1"
     />
@@ -30,9 +29,8 @@
     <TextView
             android:textSize="20sp"
             android:id="@+id/wins"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_weight="1"
     />
@@ -40,11 +38,9 @@
     <TextView
             android:textSize="20sp"
             android:id="@+id/score"
-            android:layout_width="wrap_content"
+            android:layout_width="50sp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
             android:textAppearance="?attr/textAppearanceListItem"
             android:layout_weight="1"
-            android:layout_marginEnd="10sp"
     />
 </LinearLayout>

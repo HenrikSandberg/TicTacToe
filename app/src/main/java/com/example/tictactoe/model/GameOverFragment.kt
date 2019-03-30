@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_game_over.*
 
 class GameOverFragment : Fragment() {
     private lateinit var playerModel: PlayerModel
-    private var topText = ""
     private var p1: String? = null
     private var p2: String? = null
     private var whoWon: Int? = null
@@ -40,6 +39,8 @@ class GameOverFragment : Fragment() {
                 }
             })
         }
+
+        setText()
     }
 
     private fun update (players: List<Player>) {
@@ -113,9 +114,22 @@ class GameOverFragment : Fragment() {
         }
     }
 
-    fun setText(topText: String, winnerName: String){
-        top_title.text = topText
-        winner_name.text = winnerName
+    fun setText(){
+        if (p1 != null && p2 != null && whoWon != null){
+            when(whoWon){
+                1 -> {
+                    top_title.text = "Winner is"
+                    winner_name.text = p1
+                }
+                2 -> {
+                    top_title.text = "Winner is"
+                    winner_name.text = p2
+                }
+                else -> {
+                    top_title.text = "It's a draw"
+                }
+            }
+        }
     }
 
     fun updatePlayerDatabase(playerOne: String, playerTwo: String, winnerOrDraw: Int){
