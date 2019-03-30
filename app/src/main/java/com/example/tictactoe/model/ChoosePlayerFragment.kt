@@ -1,10 +1,9 @@
 package com.example.tictactoe.model
+import android.content.Context
 import android.os.Bundle
-import android.view.KeyEvent
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import com.example.tictactoe.controller.PlayerModel
 import androidx.lifecycle.Observer
@@ -12,6 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
 import com.example.tictactoe.controller.Player
 import kotlinx.android.synthetic.main.fragment_choose_player.*
+
+
+
 
 class ChoosePlayerFragment : Fragment() {
     private var currentInstance: Int? = null
@@ -35,8 +37,8 @@ class ChoosePlayerFragment : Fragment() {
                 android.R.layout.simple_spinner_dropdown_item
             )
             personAdapter.clear()
-            listOfPlayers
-                .filter { player -> player.name != "Deep Thought" && player.name != "Marvin" && player.name != "Eddie"}  //Makes also sure that you can't select one of the tree AI players
+            listOfPlayers //Makes also sure that you can't select one of the tree AI players
+                .filter { player -> player.name != "Deep Thought" && player.name != "Marvin" && player.name != "Eddie"}
                 .forEach { player -> //Make sure that player 1 and player 2 can't be the same person
                     when(currentInstance != 2) {
                         true -> {
@@ -87,6 +89,7 @@ class ChoosePlayerFragment : Fragment() {
 
     fun setInstance(instance: Int){ currentInstance = instance }
 
+    /********************************************* Private ************************************************************/
     private fun goToNextFragment(){
         selectedPlayer = selectedPlayer ?: choose_player_spinner.selectedItem!! as String
         val mainActivity = (activity as MainActivity)
@@ -98,18 +101,22 @@ class ChoosePlayerFragment : Fragment() {
         }
     }
 
-    private fun doesNotContain():Boolean = players.none { (it == add_player_text.text.toString()) }
+    private fun doesNotContain():Boolean = playerModel.allPlayers.value!!.none { (it.name == add_player_text.text.toString()) }
 
     private fun handleText() {
         if (add_player_text.text.isNotEmpty() && doesNotContain()) {
             val playerName = add_player_text.text.toString().capitalize()
             playerModel.insert( Player(playerName, 0, 0) )
             selectedPlayer = playerName
-            mainLayout.requestFocus()
         }
-        add_player_text.clearFocus()
         add_player_text.text.clear()
-        add_player_text.clearAnimation()
+        add_player_text.hideKeyboard()
+    }
+
+    private fun View.hideKeyboard() {
+        (context.getSystemService(
+            Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        ).hideSoftInputFromWindow(windowToken, 0)
     }
 
     private fun setTextOnScreen(){
