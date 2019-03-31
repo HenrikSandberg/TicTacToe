@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
 import android.content.Context
 import android.os.Bundle
@@ -11,21 +11,12 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.Player
-import com.example.tictactoe.controller.PlayerModel
+import com.example.tictactoe.model.Player
+import com.example.tictactoe.model.PlayerModel
 
 class HighScoreFragment : Fragment() {
-
-    private var columnCount = 1
     private var listener: OnListFragmentInteractionListener? = null
     private lateinit var playerModel: PlayerModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            columnCount = it.getInt(ARG_COLUMN_COUNT)
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,8 +29,8 @@ class HighScoreFragment : Fragment() {
             if (view is RecyclerView) {
                 with (view) {
                     layoutManager = LinearLayoutManager (activity)
-                    adapter = MyPersonRecyclerViewAdapter (
-                        listOfPlayers.sortedByDescending { player -> player.score }, // TODO: not sure i should sort by  player.score + player.wins || player.score || player.wins
+                    adapter = PlayerRecyclerViewAdapter ( // TODO: not sure i should sort by  player.score + player.wins || player.score || player.wins
+                        listOfPlayers.sortedByDescending { player -> player.score },
                         activity as MainActivity
                     )
                 }
@@ -62,19 +53,7 @@ class HighScoreFragment : Fragment() {
         listener = null
     }
 
-    interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
+    interface OnListFragmentInteractionListener { // TODO: Update argument type and name
         fun onListFragmentInteraction(item: Player?)
-    }
-
-    companion object {
-        const val ARG_COLUMN_COUNT = "column-count"
-        @JvmStatic
-        fun newInstance(columnCount: Int) =
-            HighScoreFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_COLUMN_COUNT, columnCount)
-                }
-            }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -9,7 +9,7 @@ import android.widget.RadioButton
 import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.GameMode
+import com.example.tictactoe.model.GameMode
 import kotlinx.android.synthetic.main.fragment_set_up_game_against_ai.*
 
 class SetUpGameAgainstAIFragment : DialogFragment() {

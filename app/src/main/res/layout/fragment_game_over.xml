@@ -8,7 +8,7 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:background="@drawable/background_with_shadow"
-        tools:context=".model.GameOverFragment"
+        tools:context=".controller.GameOverFragment"
         android:orientation="vertical"
         android:elevation="4dp"
 >

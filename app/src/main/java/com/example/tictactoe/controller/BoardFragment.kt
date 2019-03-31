@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 import android.R
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
@@ -13,8 +13,7 @@ import android.view.animation.OvershootInterpolator
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.forEach
-import com.example.tictactoe.controller.GameMode
-import com.example.tictactoe.controller.TicTakToe
+import com.example.tictactoe.model.GameMode
 import kotlinx.android.synthetic.main.fragment_board.*
 
 

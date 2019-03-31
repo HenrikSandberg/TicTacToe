@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

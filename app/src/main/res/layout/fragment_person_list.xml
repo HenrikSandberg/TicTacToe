@@ -15,6 +15,6 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:context=".model.HighScoreFragment"
+        tools:context=".controller.HighScoreFragment"
         tools:listitem="@layout/fragment_person"
 />

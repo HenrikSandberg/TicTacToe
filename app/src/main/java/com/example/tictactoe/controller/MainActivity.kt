@@ -1,20 +1,13 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.GameMode
-import com.example.tictactoe.controller.Player
-import com.example.tictactoe.controller.TicTakToe
-
-
-
+import com.example.tictactoe.model.*
+import com.example.tictactoe.controller.*
 
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
@@ -84,7 +77,6 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
             .setTransition(TRANSIT_FRAGMENT_FADE)
             //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
             .replace(R.id.game_content_frame, gameOverScreen)
-            .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
     }
 

@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.Player
-import com.example.tictactoe.model.HighScoreFragment.OnListFragmentInteractionListener
+import com.example.tictactoe.model.Player
 import kotlinx.android.synthetic.main.fragment_person.view.*
 
-class MyPersonRecyclerViewAdapter(
+class PlayerRecyclerViewAdapter(
     private val mValues: List<Player>,
-    private val mListener: OnListFragmentInteractionListener?
-) : RecyclerView.Adapter<MyPersonRecyclerViewAdapter.ViewHolder>() {
+    private val mListener: HighScoreFragment.OnListFragmentInteractionListener?
+) : RecyclerView.Adapter<PlayerRecyclerViewAdapter.ViewHolder>() {
 
     private val mOnClickListener: View.OnClickListener
 

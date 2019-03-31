@@ -1,19 +1,16 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import com.example.tictactoe.controller.PlayerModel
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.Player
+import com.example.tictactoe.model.Player
+import com.example.tictactoe.model.PlayerModel
 import kotlinx.android.synthetic.main.fragment_choose_player.*
-
-
-
 
 class ChoosePlayerFragment : Fragment() {
     private var currentInstance: Int? = null

@@ -1,4 +1,4 @@
-package com.example.tictactoe.model
+package com.example.tictactoe.controller
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-import com.example.tictactoe.controller.Player
-import com.example.tictactoe.controller.PlayerModel
+import com.example.tictactoe.model.Player
+import com.example.tictactoe.model.PlayerModel
 import kotlinx.android.synthetic.main.fragment_game_over.*
 
 class GameOverFragment : Fragment() {

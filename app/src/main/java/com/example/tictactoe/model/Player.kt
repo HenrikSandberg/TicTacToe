@@ -1,4 +1,4 @@
-package com.example.tictactoe.controller
+package com.example.tictactoe.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

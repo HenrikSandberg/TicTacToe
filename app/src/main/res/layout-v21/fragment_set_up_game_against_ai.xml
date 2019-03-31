@@ -4,7 +4,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="400sp"
         android:layout_height="500sp"
-        tools:context=".model.SetUpGameAgainstAIFragment"
+        tools:context=".controller.SetUpGameAgainstAIFragment"
         android:orientation="vertical"
         android:gravity="center|center_horizontal"
         android:layout_gravity="center"

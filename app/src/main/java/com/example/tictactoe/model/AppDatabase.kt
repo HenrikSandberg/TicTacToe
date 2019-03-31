@@ -1,4 +1,4 @@
-package com.example.tictactoe.controller
+package com.example.tictactoe.model
 
 import android.content.Context
 import androidx.room.Database
@@ -12,7 +12,7 @@ abstract class AppDatabase: RoomDatabase() {
         @Volatile
         private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase{
+        fun getDatabase(context: Context): AppDatabase {
             val tempInstance = INSTANCE
 
             if (tempInstance != null) return tempInstance

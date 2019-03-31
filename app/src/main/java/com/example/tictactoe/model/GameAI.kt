@@ -1,4 +1,4 @@
-package com.example.tictactoe.controller
+package com.example.tictactoe.model
 
 enum class GameMode {
     PVP,

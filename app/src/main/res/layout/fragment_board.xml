@@ -7,7 +7,7 @@
         android:layout_height="570sp"
         android:elevation="2dp"
         android:layout_gravity="center"
-        tools:context=".model.MainActivity"
+        tools:context=".controller.MainActivity"
         android:orientation="vertical"
         android:background="@drawable/background_with_shadow"
 >

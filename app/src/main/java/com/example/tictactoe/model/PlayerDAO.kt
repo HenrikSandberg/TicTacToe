@@ -1,7 +1,8 @@
-package com.example.tictactoe.controller
+package com.example.tictactoe.model
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.tictactoe.model.Player
 
 @Dao
 interface PlayerDAO {

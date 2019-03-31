@@ -1,9 +1,12 @@
 package com.example.tictactoe.controller
 
+import com.example.tictactoe.model.GameAI
+import com.example.tictactoe.model.GameMode
+
 class TicTakToe {
     private var p1:String? = null
     private var p2:String? = null
-    private var ai:GameAI? = null
+    private var ai: GameAI? = null
 
     private var oTurn = true
     private var board = arrayOf(0,0,0,0,0,0,0,0,0)
