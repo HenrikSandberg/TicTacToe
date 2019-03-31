@@ -1,27 +1,50 @@
 package com.example.tictactoe.controller
 
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
 import com.example.tictactoe.model.*
-import com.example.tictactoe.controller.*
-
+@Suppress("UNNECESSARY_SAFE_CALL")
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
     private lateinit var game:TicTakToe
     private var playerOne: String? = null
     private var playerTwo: String? = null
     private val BACK_STACK_ROOT_TAG = "root_fragment"
-
+    private var musicPlayer: MediaPlayer? = null
+    private var currentPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         setUpMainMenu()
+        musicPlayer = MediaPlayer.create(this, R.raw.hitchhikers_guide_to_the_galaxy)
+        letsListen()
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+        letsListen()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (musicPlayer != null){
+            if (musicPlayer!!.isPlaying){
+                currentPosition = musicPlayer!!.currentPosition
+            }
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        musicPlayer?.release()
     }
 
     fun createGame(gameMode: GameMode) {
@@ -64,14 +87,19 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
 
     fun getPlayerOne(): String = playerOne ?: "Not Selected"
 
-    fun setUpHighScore(){
+    fun setUpHighScore() {
         addToFragmentManagerWithBackStack(HighScoreFragment())
     }
 
-    fun gameIsOver(){
+    fun gameIsOver() {
         val gameOverScreen = GameOverFragment()
-        gameOverScreen.updatePlayerDatabase(game.getPlayerOne(), game.getPlayerTwo(), game.whoWon())
-
+        gameOverScreen
+            .updatePlayerDatabase(
+                game.getPlayerOne(),
+                game.getPlayerTwo(),
+                game.whoWon()
+            )
+        //fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
@@ -91,8 +119,14 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
             .commit()
     }
 
-    override fun onListFragmentInteraction(item: Player?){
-        println("Something happens")
+    override fun onListFragmentInteraction(item: Player?){ println("Something happens") } //Do nothing, just need to implement
+
+    private fun letsListen() = if (musicPlayer!!.isPlaying) {
+        musicPlayer!!.pause()
+        //findViewById<ImageButton>(R.id.musicIcon).setImageResource(R.drawable.play)
+    } else {
+        musicPlayer!!.start()
+        //findViewById<ImageButton>(R.id.musicIcon).setImageResource( R.drawable.pause)
     }
 
     private fun addToFragmentManagerWithBackStack(fragment: Fragment) {

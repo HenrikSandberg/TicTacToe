@@ -37,4 +37,12 @@
     <string name="choose_player">Choose Player</string>
     <string name="choose_ai">Choose AI</string>
     <string name="title_activity_high_score">HighScoreActivity</string>
+    <string name="game_is_over">Game is over!</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="hello_world">Hello World</string>
+    <string name="don_t_panic">Don\'t Panic</string>
+
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

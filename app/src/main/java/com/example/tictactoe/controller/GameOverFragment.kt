@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
@@ -12,7 +13,7 @@ import com.example.tictactoe.model.Player
 import com.example.tictactoe.model.PlayerModel
 import kotlinx.android.synthetic.main.fragment_game_over.*
 
-class GameOverFragment : Fragment() {
+class GameOverFragment : DialogFragment() {
     private lateinit var playerModel: PlayerModel
     private var p1: String? = null
     private var p2: String? = null
