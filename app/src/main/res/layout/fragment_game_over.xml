@@ -23,7 +23,7 @@
             android:id="@+id/winner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
+            android:gravity="center"
             android:textStyle="bold"
             android:textSize="60sp"
             android:layout_marginBottom="50sp"
@@ -34,7 +34,7 @@
             android:id="@+id/rematch_button"
             android:text="rematch"
             android:textColor="@color/white"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorAccent"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20sp"
@@ -43,7 +43,7 @@
             android:id="@+id/back_to_main_menu"
             android:text="Back to main menu"
             android:textColor="@color/white"
-            android:background="@color/colorAccent"
+            android:background="@color/colorAccentDark"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
     />

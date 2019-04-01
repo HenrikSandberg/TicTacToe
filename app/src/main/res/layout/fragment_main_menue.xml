@@ -25,6 +25,7 @@
                 android:textColor="@color/white"
                 android:text="@string/player_vs_player"
                 android:layout_width="200sp"
+                android:radius="20dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorAccentLight"
                 android:layout_marginBottom="10sp"
@@ -33,6 +34,7 @@
         <Button
                 android:id="@+id/pvai_button"
                 android:layout_width="200sp"
+                android:radius="20dp"
                 android:layout_height="wrap_content"
                 android:text="@string/player_vs_computer"
                 android:background="@color/colorAccent"
@@ -43,6 +45,7 @@
         <Button
                 android:id="@+id/high_score_button"
                 android:textColor="@color/white"
+                android:radius="20dp"
                 android:text="@string/high_score"
                 android:layout_width="200sp"
                 android:layout_height="wrap_content"

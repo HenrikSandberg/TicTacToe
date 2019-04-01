@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
+import android.widget.Chronometer
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.forEach
@@ -24,8 +25,6 @@ import java.util.concurrent.TimeUnit
 @SuppressLint("ValidFragment")
 class BoardFragment(game: TicTakToe) : Fragment() {
     private var ticTakToeGame = game
-    private var timer:Timer? = null
-    private var handler: Handler? = null
 
     override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,13 +37,24 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         super.onActivityCreated(savedInstanceState)
         updateTurn()
 
+        /*
         resetButton.setOnClickListener {
             grid_for_game.forEach { item-> setImage(item as ImageButton, true) }
             ticTakToeGame.resetGame()
             updateTurn()
             updateClickable(true)
-        }
+        }*/
         grid_for_game.forEach { item -> item.setOnClickListener { selectRouteClick(item) } }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        timer.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        timer.stop()
     }
 
     private fun setImage(imageButton: ImageButton, reset: Boolean) {

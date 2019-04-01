@@ -1,14 +1,18 @@
 package com.example.tictactoe.controller
 
+import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Chronometer
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
 import com.example.tictactoe.model.*
+import kotlinx.android.synthetic.main.activity_game.*
+
 @Suppress("UNNECESSARY_SAFE_CALL")
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
@@ -19,6 +23,7 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     private var musicPlayer: MediaPlayer? = null
     private var currentPosition = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
@@ -26,6 +31,12 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         setUpMainMenu()
         musicPlayer = MediaPlayer.create(this, R.raw.hitchhikers_guide_to_the_galaxy)
         letsListen()
+
+
+        val animDrawable = background_root.background as AnimationDrawable
+        animDrawable.setEnterFadeDuration(10)
+        animDrawable.setExitFadeDuration(5000)
+        animDrawable.start()
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {

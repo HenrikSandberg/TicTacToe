@@ -49,7 +49,7 @@
                 android:hint="@string/add_new_player"
                 android:inputType="text"
                 android:textSize="20sp"
-        />
+                tools:targetApi="p"/>
         <ImageButton
                 android:id="@+id/add_player_button"
                 android:layout_width="40sp"
