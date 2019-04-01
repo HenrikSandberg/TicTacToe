@@ -36,14 +36,6 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTurn()
-
-        /*
-        resetButton.setOnClickListener {
-            grid_for_game.forEach { item-> setImage(item as ImageButton, true) }
-            ticTakToeGame.resetGame()
-            updateTurn()
-            updateClickable(true)
-        }*/
         grid_for_game.forEach { item -> item.setOnClickListener { selectRouteClick(item) } }
     }
 

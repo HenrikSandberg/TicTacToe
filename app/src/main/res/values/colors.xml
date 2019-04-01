@@ -3,14 +3,17 @@
     <color name="colorPrimaryLight">#484848</color>
     <color name="colorPrimary">#212121</color>
     <color name="colorPrimaryDark">#000</color>
-    <color name="colorAccentLight">#ff5f52</color>
-    <color name="colorAccent">#c62828</color>
-    <color name="colorAccentDark">#8e0000</color>
+    <color name="colorAccentLight">#5e92f3</color>
+    <color name="colorAccent">#1565c0</color>
+    <color name="colorAccentDark">#003c8f</color>
+    <color name="highScoreButton">#006978</color>
 
     <!-- Gradient colors -->
-    <color name="colorGradientStart">#e53935 </color>
-    <color name="colorGradientCenter">#43a047 </color>
-    <color name="colorGradientEnd">#fdd835</color>
+    <color name="colorGradientStart">#0F2027</color>
+    <color name="colorGradientCenter">#203A43</color>
+    <color name="colorGradientEnd">#2C5364
+
+    </color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>

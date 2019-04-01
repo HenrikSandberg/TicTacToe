@@ -4,8 +4,6 @@ import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Chronometer
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
@@ -20,7 +18,7 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     private var playerOne: String? = null
     private var playerTwo: String? = null
     private val BACK_STACK_ROOT_TAG = "root_fragment"
-    private var musicPlayer: MediaPlayer? = null
+    private lateinit var musicPlayer: MediaPlayer
     private var currentPosition = 0
 
 
@@ -31,6 +29,8 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         setUpMainMenu()
         musicPlayer = MediaPlayer.create(this, R.raw.hitchhikers_guide_to_the_galaxy)
         letsListen()
+
+        musicPlayer.setOnCompletionListener { musicPlayer.start() }
 
 
         val animDrawable = background_root.background as AnimationDrawable
@@ -46,16 +46,16 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
 
     override fun onPause() {
         super.onPause()
-        if (musicPlayer != null){
-            if (musicPlayer!!.isPlaying){
-                currentPosition = musicPlayer!!.currentPosition
-            }
+        musicPlayer.pause()
+        if (musicPlayer.isPlaying){
+            musicPlayer.pause()
+            currentPosition = musicPlayer.currentPosition
         }
     }
 
     override fun onStop() {
         super.onStop()
-        musicPlayer?.release()
+        musicPlayer.release()
     }
 
     fun createGame(gameMode: GameMode) {
