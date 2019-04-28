@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-import com.example.tictactoe.model.Player
-import com.example.tictactoe.model.PlayerModel
+import com.example.tictactoe.model.database.Player
+import com.example.tictactoe.model.database.PlayerModel
 import kotlinx.android.synthetic.main.fragment_choose_player.*
 
 class ChoosePlayerFragment : Fragment() {

@@ -11,8 +11,8 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.tictactoe.R
-import com.example.tictactoe.model.Player
-import com.example.tictactoe.model.PlayerModel
+import com.example.tictactoe.model.database.Player
+import com.example.tictactoe.model.database.PlayerModel
 
 class HighScoreFragment : Fragment() {
     private var listener: OnListFragmentInteractionListener? = null

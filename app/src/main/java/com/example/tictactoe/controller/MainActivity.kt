@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
 import com.example.tictactoe.R
 import com.example.tictactoe.model.*
+import com.example.tictactoe.model.database.Player
 import kotlinx.android.synthetic.main.activity_game.*
 
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
     private val BACK_STACK_ROOT_TAG = "root_fragment"
     private lateinit var musicPlayer: MediaPlayer
     private var currentPosition = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

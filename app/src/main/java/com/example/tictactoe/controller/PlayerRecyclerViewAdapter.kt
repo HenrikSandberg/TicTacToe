@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.tictactoe.R
-import com.example.tictactoe.model.Player
+import com.example.tictactoe.model.database.Player
 import kotlinx.android.synthetic.main.fragment_person.view.*
 
 class PlayerRecyclerViewAdapter(
