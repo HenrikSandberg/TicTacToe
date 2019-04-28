@@ -11,7 +11,6 @@ import com.example.tictactoe.R
 import com.example.tictactoe.model.*
 import kotlinx.android.synthetic.main.activity_game.*
 
-@Suppress("UNNECESSARY_SAFE_CALL")
 class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentInteractionListener {
     private val fragmentManager = supportFragmentManager
     private lateinit var game:TicTakToe
@@ -132,11 +131,11 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
 
     override fun onListFragmentInteraction(item: Player?){ println("Something happens") } //Do nothing, just need to implement
 
-    private fun letsListen() = if (musicPlayer!!.isPlaying) {
-        musicPlayer!!.pause()
+    private fun letsListen() = if (musicPlayer.isPlaying) {
+        musicPlayer.pause()
         //findViewById<ImageButton>(R.id.musicIcon).setImageResource(R.drawable.play)
     } else {
-        musicPlayer!!.start()
+        musicPlayer.start()
         //findViewById<ImageButton>(R.id.musicIcon).setImageResource( R.drawable.pause)
     }
 

@@ -33,7 +33,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         return inflater.inflate(com.example.tictactoe.R.layout.fragment_board, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
+    override fun onActivityCreated (savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         updateTurn()
         grid_for_game.forEach { item -> item.setOnClickListener { selectRouteClick(item) } }
@@ -108,17 +108,13 @@ class BoardFragment(game: TicTakToe) : Fragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun updateTurn() {
         (next_turn_text as TextView).text =  when {
             ticTakToeGame.doWeHaveAWinner() -> "${ticTakToeGame.previousPlayer()} won!"
             ticTakToeGame.noEmpty() -> "It's a draw"
             else -> ticTakToeGame.nextPlayer()
         }
-        if (ticTakToeGame.doWeHaveAWinner()) {
-            (activity as MainActivity).gameIsOver()
-            
-        } else if (ticTakToeGame.noEmpty()) {
+        if (ticTakToeGame.doWeHaveAWinner() || ticTakToeGame.noEmpty()) {
             (activity as MainActivity).gameIsOver()
         }
     }

@@ -63,7 +63,7 @@ class ChoosePlayerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         /*ADD NEW PLAYER BUTTON PRESS*/
-        add_player_text.setOnKeyListener(View.OnKeyListener { v, keyCode, event ->
+        add_player_text.setOnKeyListener(View.OnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
                 handleText()
                 return@OnKeyListener true
@@ -73,7 +73,7 @@ class ChoosePlayerFragment : Fragment() {
 
         add_player_button.setOnClickListener { handleText() }
 
-        /*TO NEXT FRAGMENT*/
+        /******************************************* TO NEXT FRAGMENT ******************************************* */
         bottom_button_on_player_select.setOnClickListener {
             if (add_player_text.text.isNotEmpty() && doesNotContain()) {
                 handleText()

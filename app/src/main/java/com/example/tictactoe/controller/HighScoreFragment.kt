@@ -23,16 +23,16 @@ class HighScoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_person_list, container, false)
-        // Set the adapter
         playerModel = ViewModelProviders.of(this).get(PlayerModel::class.java)
         playerModel.allPlayers.observe (this, Observer{ listOfPlayers ->
             if (view is RecyclerView) {
                 with (view) {
                     layoutManager = LinearLayoutManager (activity)
-                    adapter = PlayerRecyclerViewAdapter ( // TODO: not sure i should sort by  player.score + player.wins || player.score || player.wins
+                    adapter = PlayerRecyclerViewAdapter (
                         listOfPlayers.sortedByDescending { player -> player.score },
                         activity as MainActivity
                     )
+                    return@Observer
                 }
             }
         })
