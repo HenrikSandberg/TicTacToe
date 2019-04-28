@@ -4,6 +4,7 @@ import android.graphics.drawable.AnimationDrawable
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction.*
@@ -27,10 +28,16 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         setUpMainMenu()
         musicPlayer = MediaPlayer.create(this, R.raw.hitchhikers_guide_to_the_galaxy)
-        letsListen()
+        handleMusicPlayer()
 
-        musicPlayer.setOnCompletionListener { musicPlayer.start() }
+        musicPlayer.setOnCompletionListener {
+            musicPlayer.start()
+            musicPlayer.isLooping = true
+        }
 
+        musicIcon.setOnClickListener{
+            handleMusicPlayer()
+        }
 
         val animDrawable = background_root.background as AnimationDrawable
         animDrawable.setEnterFadeDuration(10)
@@ -40,20 +47,25 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
-        letsListen()
+        handleMusicPlayer()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (currentPosition > 0 && !musicPlayer.isPlaying){
+            handleMusicPlayer()
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        musicPlayer.pause()
         if (musicPlayer.isPlaying){
-            musicPlayer.pause()
-            currentPosition = musicPlayer.currentPosition
+            handleMusicPlayer()
         }
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onDestroy() {
+        super.onDestroy()
         musicPlayer.release()
     }
 
@@ -123,7 +135,6 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
-            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
             .replace(R.id.game_content_frame, BoardFragment(game))
             .addToBackStack(BACK_STACK_ROOT_TAG)
             .commit()
@@ -131,19 +142,22 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
 
     override fun onListFragmentInteraction(item: Player?){ println("Something happens") } //Do nothing, just need to implement
 
-    private fun letsListen() = if (musicPlayer.isPlaying) {
-        musicPlayer.pause()
-        //findViewById<ImageButton>(R.id.musicIcon).setImageResource(R.drawable.play)
-    } else {
-        musicPlayer.start()
-        //findViewById<ImageButton>(R.id.musicIcon).setImageResource( R.drawable.pause)
+    private fun handleMusicPlayer() {
+        if (musicPlayer.isPlaying) {
+            musicPlayer.pause()
+            currentPosition = musicPlayer.currentPosition
+            findViewById<ImageButton>(R.id.musicIcon).setImageResource(R.drawable.play)
+        } else {
+            currentPosition = musicPlayer.currentPosition
+            musicPlayer.start()
+            findViewById<ImageButton>(R.id.musicIcon).setImageResource( R.drawable.pause)
+        }
     }
 
     private fun addToFragmentManagerWithBackStack(fragment: Fragment) {
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
-            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
             .replace(R.id.game_content_frame, fragment)
             .addToBackStack(null)
             .commit()
@@ -153,7 +167,6 @@ class MainActivity : AppCompatActivity(), HighScoreFragment.OnListFragmentIntera
         fragmentManager
             .beginTransaction()
             .setTransition(TRANSIT_FRAGMENT_FADE)
-            //.setCustomAnimations(R.animator.slide_out_right, R.animator.slide_in_left)
             .replace(R.id.game_content_frame, MainMenuFragment())
             .commit()
     }

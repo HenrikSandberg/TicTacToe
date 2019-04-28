@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.os.SystemClock
 import androidx.fragment.app.Fragment
@@ -12,19 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.OvershootInterpolator
-import android.widget.Chronometer
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.forEach
 import com.example.tictactoe.model.GameMode
 import kotlinx.android.synthetic.main.fragment_board.*
-import java.util.*
-import java.util.concurrent.TimeUnit
-
 
 @SuppressLint("ValidFragment")
 class BoardFragment(game: TicTakToe) : Fragment() {
     private var ticTakToeGame = game
+    private var timeDifference = 0.toLong()
 
     override fun onCreateView (
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,12 +37,20 @@ class BoardFragment(game: TicTakToe) : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        println("Fragment Start")
         timer.start()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("Fragment Resume")
+        val time = timeDifference + SystemClock.elapsedRealtime()
+        timer.base = time
     }
 
     override fun onPause() {
         super.onPause()
-        timer.stop()
+        timeDifference = timer.base - SystemClock.elapsedRealtime()
     }
 
     private fun setImage(imageButton: ImageButton, reset: Boolean) {

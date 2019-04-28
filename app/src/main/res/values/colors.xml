@@ -9,11 +9,9 @@
     <color name="highScoreButton">#006978</color>
 
     <!-- Gradient colors -->
-    <color name="colorGradientStart">#0F2027</color>
-    <color name="colorGradientCenter">#203A43</color>
-    <color name="colorGradientEnd">#2C5364
-
-    </color>
+    <color name="colorGradientStart">#5e92f3</color>
+    <color name="colorGradientCenter">#1565c0</color>
+    <color name="colorGradientEnd">#003c8f</color>
 
     <color name="white">#fff</color>
     <color name="black">#000</color>
