@@ -28,10 +28,6 @@ class SetUpGameAgainstAIFragment : DialogFragment() {
         ,"Deep Thought is a supernatural-computer programmed to calculate the answer the Ultimate Question of Life, the Universe, and Everything." +
             " Winning against Deep Thought is impossible. However, someone do say that there is one way.")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

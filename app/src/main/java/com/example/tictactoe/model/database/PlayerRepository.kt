@@ -8,21 +8,17 @@ class PlayerRepository(private val playerDAO: PlayerDAO) {
     val allPlayersLive: LiveData<List<Player>> = playerDAO.getAllPlayersLive()
 
     @WorkerThread
-    fun insert(player: Player){
+    fun insert(player: Player) {
         playerDAO.insert(player)
     }
 
     @WorkerThread
-    fun update(player: Player){
+    fun update(player: Player) {
         playerDAO.update(player)
     }
 
     @WorkerThread
-    fun deleteAll(){
+    fun deleteAll() {
         playerDAO.deleteAll()
     }
-
-
-
-
 }

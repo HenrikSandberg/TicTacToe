@@ -7,10 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.tictactoe.R
 
 class SplashActivity : AppCompatActivity() {
-    private var mDelayHandler: Handler? = null
-    private val DELAY: Long = 3000 //3 seconds
+    private var handleDelay: Handler? = null
+    private val delay: Long = 3000 // 3 seconds
 
-    private val mRunnable: Runnable = Runnable {
+    private val runner: Runnable = Runnable {
         if (!isFinishing) {
             val intent = Intent(applicationContext, MainActivity::class.java)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -22,12 +22,14 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        mDelayHandler = Handler()
-        mDelayHandler!!.postDelayed(mRunnable, DELAY)
+        handleDelay = Handler()
+        handleDelay!!.postDelayed(runner, delay)
     }
 
     public override fun onDestroy() {
-        if (mDelayHandler != null) { mDelayHandler!!.removeCallbacks(mRunnable) }
+        if (handleDelay != null) {
+            handleDelay!!.removeCallbacks(runner)
+        }
         super.onDestroy()
     }
 

@@ -1,5 +1,5 @@
 package com.example.tictactoe.controller
-import android.R
+
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
@@ -15,10 +15,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.view.forEach
 import com.example.tictactoe.model.GameMode
+import com.example.tictactoe.model.TicTacToe
 import kotlinx.android.synthetic.main.fragment_board.*
 
 @SuppressLint("ValidFragment")
-class BoardFragment(game: TicTakToe) : Fragment() {
+class BoardFragment(game: TicTacToe) : Fragment() {
     private var ticTakToeGame = game
     private var timeDifference = 0.toLong()
 
@@ -37,15 +38,12 @@ class BoardFragment(game: TicTakToe) : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        println("Fragment Start")
         timer.start()
     }
 
     override fun onResume() {
         super.onResume()
-        println("Fragment Resume")
-        val time = timeDifference + SystemClock.elapsedRealtime()
-        timer.base = time
+        timer.base = timeDifference + SystemClock.elapsedRealtime()
     }
 
     override fun onPause() {
@@ -56,7 +54,7 @@ class BoardFragment(game: TicTakToe) : Fragment() {
     private fun setImage(imageButton: ImageButton, reset: Boolean) {
         imageButton.setImageResource(
             when (reset) {
-                true -> R.color.transparent
+                true -> android.R.color.transparent
                 false -> resources.getIdentifier (
                     if (ticTakToeGame.oJustPlayed()) "ic_circle" else "ic_cross",
                     "drawable",

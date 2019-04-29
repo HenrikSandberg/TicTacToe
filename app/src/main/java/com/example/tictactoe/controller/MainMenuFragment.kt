@@ -10,11 +10,6 @@ import androidx.core.view.children
 import com.example.tictactoe.R
 import kotlinx.android.synthetic.main.fragment_main_menue.*
 class MainMenuFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,10 +20,10 @@ class MainMenuFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        game_button_manager.children.forEach{ button ->
-            button.setOnClickListener{
+        game_button_manager.children.forEach { button ->
+            button.setOnClickListener {
 
-                when(button.id){
+                when(button.id) {
                     R.id.pvp_button -> (activity as MainActivity).setUpPVPGame()
                     R.id.pvai_button -> (activity as MainActivity).setUpAIGame()
                     else -> (activity as MainActivity).setUpHighScore()

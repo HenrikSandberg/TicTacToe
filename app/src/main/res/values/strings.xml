@@ -46,4 +46,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="play_pause_button">play pause button</string>
+    <string name="name">Name</string>
+    <string name="wins">Wins</string>
+    <string name="score">Score</string>
 </resources>

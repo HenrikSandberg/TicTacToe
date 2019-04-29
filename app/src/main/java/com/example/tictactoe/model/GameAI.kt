@@ -27,7 +27,7 @@ class GameAI(_gameMode: GameMode) {
                 //Don't want to run the MinMax on the main UI thread.
                 //This make sure that the app does not get any animation glitches
                 //minMaxReturns an array, at index 0 is the predicted outcome of move
-                return minMax(board, 9, 1)[1]
+                return miniMax(board, 9, 1)[1]
             }
         } else if (gameMode == GameMode.HARD) {
             (0..1).forEach { player ->
@@ -107,7 +107,7 @@ class GameAI(_gameMode: GameMode) {
     }
 
     /******************************** ADVANCED ********************************/
-    private fun minMax(board: Array<Int>, depth: Int, player: Int): Array<Int> {
+    private fun miniMax(board: Array<Int>, depth: Int, player: Int): Array<Int> {
         val possibleMoveList = possibleMoves(board)
 
         var bestScore = if (player == 1) Int.MIN_VALUE else Int.MAX_VALUE
@@ -120,7 +120,7 @@ class GameAI(_gameMode: GameMode) {
         possibleMoveList.forEach { position ->
             board[position] = player
 
-            currentScore = minMax(board, depth - 1, -player)[0]
+            currentScore = miniMax(board, depth - 1, -player)[0]
 
             val condition = if (player == 1) (currentScore > bestScore) else (currentScore < bestScore)
 
@@ -135,12 +135,11 @@ class GameAI(_gameMode: GameMode) {
         return arrayOf(bestScore, bestMove)
     }
 
+    //Makes a list of all empty spaces on the board, this list will become shorter and shorter for every recursive call
     private fun possibleMoves(board: Array<Int>): MutableList<Int> {
         val moves: MutableList<Int> = mutableListOf()
 
         if (doWeHaveAWinner(board)) return moves
-
-        //Makes a list of all empty spaces on the board
         (0 until board.size).forEach {
             if (board[it] == 0) moves.add(it)
         }
